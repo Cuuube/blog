@@ -1,0 +1,17 @@
+# site title
+title: 玻璃方块与茶屋
+
+# github user
+user: Cuuube
+
+# issue repo
+repo: my-blog
+
+# multi-author
+authors:
+
+# per page
+per_page: 10
+
+#sandbox
+sandbox: false
