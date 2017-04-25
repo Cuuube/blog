@@ -1,14 +1,14 @@
 # site title
-title: 玻璃方块与茶屋
+title: 方块与茶屋
 
 # github user
 user: Cuuube
 
 # issue repo
-repo: my-blog
+repo: blog
 
 # multi-author
-authors:
+authors: Cuuube
 
 # per page
 per_page: 10
