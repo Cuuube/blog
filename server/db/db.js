@@ -1,4 +1,4 @@
-class Db {
+module.exports = class Db {
     constructor (dbName, url) {
         this.name = dbName;
         this.mongoose = require('mongoose');
@@ -11,7 +11,7 @@ class Db {
         model.save(err => {if (err) {console.error(err)}});
         return this;
     }
-    change () {
+    update () {
 
     }
     remove () {
@@ -33,4 +33,4 @@ class Db {
     }
 
 }
-module.exports = new Db('blog', 'mongodb://localhost/blog');
+// new Db('blog', 'mongodb://localhost/blog');

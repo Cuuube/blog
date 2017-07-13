@@ -17,7 +17,8 @@ Cat.findOne({name: 'Hua hua'}, (err, data)=>{
 
 // 更新 Cat.update(查询条件,更新对象,callback);
 /*
-var conditions = {name : 'zfpx'};  var update = {$set : { age : 100 }};
+var conditions = {name : 'zfpx'};  
+var update = {$set : { age : 100 }};
   PersonModel.update(conditions, update, function(error){   
      if(error) {     
           console.log(error);
