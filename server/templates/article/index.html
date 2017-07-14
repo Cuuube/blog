@@ -5,8 +5,34 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>index | zxod说</title>
+    <link rel="stylesheet" type="text/css" href="/css/article/index.css">
 </head>
 <body>
+    <header class="middle"></header>
+    <section class="nec middle">
+        <div class="nec-logo">
+            ZXOD
+        </div>
+    </section>
+    <section class="body middle">
+        {% for article in articleList %}
+        <a class="article-link" href="/article/{{ article.file_name }}">
+        <div class="article">
+            <h1 class="article-title">{{ article.title }}</h1>
+            <p class="article-time">{{ article.created_time }}</p>
+        </div>
+        </a>
+        {% endfor %}
+    </section>
+    <section class="leg middle">
+        
+    </section>
+    <footer class="middle">
+        
+    </footer>
+
+
+<!--
 {% for article in articleList %}
     <div data-id="{{ article._id }}">
         <h1><a href="/article/{{ article.file_name }}">{{ article.title }}</a></h1>
@@ -17,5 +43,8 @@
         {% endfor %}
     </div>
 {% endfor %}
+-->
 </body>
+<script src="/js/article/index.js">
+</script>
 </html>

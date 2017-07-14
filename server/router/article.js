@@ -4,10 +4,14 @@ module.exports = new (require('../controller.js'))('/article')
     const axios = require('axios');
     const config = require('../config.js');
     const origin = config.origin;
+    const fomateDate = require('../utils/fomateDate.js');
 
     router.get('/', (req, res) => {
         const pagePath = path.join('../templates', 'article', 'index.html')
         axios.get(origin+'/api/article').then((resp) => {
+            resp.data.forEach(val => {
+                val.created_time = fomateDate(val.created_time);
+            })
             if (resp.data.length === 0) {
                 res.redirect('/error/404');
             } else {
