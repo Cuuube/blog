@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>{{ title }} | zxod说</title>
+</head>
+<body>
+    <h1>{{ title }}</h1>
+    <small>{{ author }}</small><small>{{ created_time }}</small><small>{{ updated_time }}</small>
+    <p>{{ description }}</p>
+    {% for keyword in keywords %}
+    <span>{{ keyword }}</span>
+    {% endfor %}
+    <p>{{ content }}</p>
+</body>
+</html>

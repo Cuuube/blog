@@ -1,13 +1,8 @@
 module.exports = class CreatServer {
     constructor (config) {
         this.config = config;
-
         this.express = require('express');
-
-
         this.app = this.express();
-
-        
     }
     setStatic (path) {
         this.app.use(this.express.static(path));
@@ -22,6 +17,10 @@ module.exports = class CreatServer {
         this.app.use(middleware);
         return this;
     }
+    doOther (callback) {
+        callback(this.app);
+        return this;
+    }
     addError () {
         this.useMiddleware((req, res, next) => {
             const error = new Error('Noooooot Found');
@@ -33,14 +32,9 @@ module.exports = class CreatServer {
             console.log(status);
             switch (status) {
                 case 404:
-                    //res.render(path.join(TEMPLATE_ROOT, '404', TEMPLATE_NAME));
                     res.redirect('/error/404');
                     break;
-                    //  case 404://其他错误
-                    //      res.render(path.join(TEMPLATE_ROOT, '404', TEMPLATE_NAME));
-                    //      break;
                 default:
-                    //res.render(path.join(TEMPLATE_ROOT, '500', TEMPLATE_NAME));
                     res.redirect('/error/500');
             }
         });

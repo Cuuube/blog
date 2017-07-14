@@ -81,7 +81,7 @@ class ArticleController extends require('./db.js') {
     }
 }
 
-const ac = new ArticleController('blog', 'mongodb://localhost/blog');
+module.exports =  new ArticleController('blog', 'mongodb://localhost/blog');
 
 // ac.add({
 //     file_name: 'a_good_day2',
