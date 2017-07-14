@@ -1,10 +1,11 @@
 const Server = require('./server/server.js');
 const bodyParser = require('body-parser');
 const path = require('path');
+const port = require('./server/config.js').port;
 
 new Server({
 })
-.setStatic('./server/public')
+.setStatic('./static')
 .doOther((app) => {
     require('nunjucks').configure('./server/templates', {
         autoescape: true,
@@ -18,6 +19,5 @@ new Server({
 .setRoute(require('./server/router/api.js'))
 .setRoute(require('./server/router/article.js'))
 .setRoute(require('./server/router/error.js'))
-
 .addError()
-.run(9875);
+.run(port);
