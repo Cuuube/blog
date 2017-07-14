@@ -8,7 +8,7 @@ new Server({
 .setStatic('./static')
 .doOther((app) => {
     require('nunjucks').configure('./server/templates', {
-        autoescape: true,
+        autoescape: false,
         express: app
     });
     app.set('views engine', 'html');
