@@ -13,8 +13,8 @@ class ArticleController extends require('./db.js') {
         });
 
     }
-    add (obj) {
-        let article = new (this.Model)({
+    add(obj) {
+        let article = new(this.Model)({
             file_name: obj.file_name,
             title: obj.title,
             author: obj.author,
@@ -25,7 +25,7 @@ class ArticleController extends require('./db.js') {
             content: obj.content
         });
         return new Promise((resolve, reject) => {
-            article.save((err)=>{
+            article.save((err) => {
                 if (err) {
                     reject(err)
                 } else {
@@ -34,54 +34,56 @@ class ArticleController extends require('./db.js') {
             });
         })
     }
-    update (sort, obj) {
+    update(sort, obj) {
         return new Promise((resolve, reject) => {
-            this.Model.update(sort, {$set: {
-            title: obj.title,
-            keywords: obj.keywords,
-            description: obj.description,
-            updated_time: this.now(),
-            content: obj.content
-        }}, (err)=>{
+            this.Model.update(sort, {
+                $set: {
+                    title: obj.title,
+                    keywords: obj.keywords,
+                    description: obj.description,
+                    updated_time: this.now(),
+                    content: obj.content
+                }
+            }, (err) => {
                 if (err) {
                     reject(err)
                 } else {
                     resolve();
                 };
-                
+
             })
         })
     }
-    remove (obj) {
+    remove(obj) {
         return new Promise((resolve, reject) => {
-            this.Model.remove(obj, (err)=>{
+            this.Model.remove(obj, (err) => {
                 if (err) {
                     reject(err)
                 } else {
                     resolve();
                 };
-                
+
             })
         });
     }
-    find (obj) {
+    find(obj) {
         return new Promise((resolve, reject) => {
-            this.Model.find(obj, (err, data)=>{
+            this.Model.find(obj, (err, data) => {
                 if (err) {
                     reject(err)
                 } else {
                     resolve(data);
                 };
-                
+
             })
         })
     }
-    now () {
+    now() {
         return new Date();
     }
 }
 
-module.exports =  new ArticleController('blog', 'mongodb://localhost/blog');
+module.exports = new ArticleController('blog', require('../config.js').dbPath);
 
 // ac.add({
 //     file_name: 'a_good_day2',
