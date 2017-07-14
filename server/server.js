@@ -43,7 +43,7 @@ module.exports = class CreatServer {
     run (port) {
         this.app.listen(port,(err) => {
             if (err) throw new Error('Server error');
-            console.log('Server started at ', port);
+            console.log('Server started at : http://localhost:'+port);
         })
         return this;
     }
