@@ -8,28 +8,29 @@ module.exports = class Db {
         return this.mongoose.model(name, obj);
     }
     add (model) {
-        model.save(err => {if (err) {console.error(err)}});
+        // model.save(err => {if (err) {console.error(err)}});
         return this;
     }
     update () {
-
+        return this;
     }
     remove () {
-
+        return this;
     }
     find (model) {
-        return new Promise((resolve, reject) => {
-            try {
-                model.find((err, data) => {
-                    if (err) reject(err);
-                    resolve(data);
-                })
-            } catch (err) {
-                reject(err);
-            }
-        }).catch((e) => {
-            console.log(e);
-        })
+        // return new Promise((resolve, reject) => {
+        //     try {
+        //         model.find((err, data) => {
+        //             if (err) reject(err);
+        //             resolve(data);
+        //         })
+        //     } catch (err) {
+        //         reject(err);
+        //     }
+        // }).catch((e) => {
+        //     console.log(e);
+        // })
+        return this;        
     }
 
 }

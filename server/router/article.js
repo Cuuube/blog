@@ -1,14 +1,17 @@
-module.exports = new (require('../controller.js'))('/article')
-.bind((router) => {
-    const path = require('path');
-    const config = require('../config.js');
-    const origin = config.origin;
-
-    const getter = new (require('../utils/getter.js'))(origin);
-    const md = require('../utils/markdown.js');
-    const fomateDate = require('../utils/fomateDate.js');
-
+module.exports = new (require('../controller.js'))({
+    url: '/article',
+    dependence: {
+        md: require('../utils/markdown.js'),
+        path: require('path'),
+        getter: new (require('../utils/getter.js'))(require('../config.js').origin),
+        fomateDate: require('../utils/fomateDate.js'),
+    }
+})
+.bind((router, dependence) => {
     router.get('/', (req, res) => {
+        const path = dependence['path'];
+        const getter = dependence['getter'];
+        const fomateDate = dependence['fomateDate'];        
         const pagePath = path.join('../templates', 'article', 'index.html')
         getter.get('/api/article').then((resp) => {
             resp.data.forEach(val => {
@@ -27,12 +30,14 @@ module.exports = new (require('../controller.js'))('/article')
     })
 
     router.get('/write', (req, res) => {
+        const path = dependence['path'];        
         const pagePath = path.join('../templates', 'article', 'write.html')
         res.render(pagePath);
     })
 
     // 不安全的请求接口，请使用 delete /api/article
     router.get('/delete/:id', (req, res) => {
+        const getter = dependence['getter'];        
         getter.delete('/api/article', {_id: id}).then((resp) => {
             res.send('success');
         }).catch(err => {
@@ -42,6 +47,9 @@ module.exports = new (require('../controller.js'))('/article')
 
     // 渲染页面接口
     router.get('/:article_name', (req, res) => {
+        const path = dependence['path'];
+        const getter = dependence['getter'];
+        const md = dependence['md'];
         const article_name = req.params.article_name;
         const pagePath = path.join('../templates', 'article', 'article.html');
         getter.get('/api/article', {file_name: article_name}).then((resp) => {

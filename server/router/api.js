@@ -1,7 +1,12 @@
-module.exports = new (require('../controller.js'))('/api')
-.bind((router) => {
-    const ac = require('../db/article.js');
+module.exports = new (require('../controller.js'))({
+    url: '/api',
+    dependence: {
+        ac: require('../db/articleDbController.js'),
+    }
+})
+.bind((router, dependence) => {
     router.get('/article', (req, res) => {
+        const ac = dependence['ac'];
         const query = req.query;
         ac.find(query).then((data) => {
             res.send(data);
@@ -17,6 +22,7 @@ module.exports = new (require('../controller.js'))('/api')
 
     router.post('/article', (req, res) => {
         // 上传新文章, 需要权限控制
+        const ac = dependence['ac'];
         const data = req.body;
         if (true) {
             ac.add(data).then(() => {
@@ -31,6 +37,7 @@ module.exports = new (require('../controller.js'))('/api')
 
     router.delete('/article', (req, res) => {
         // 上传新文章, 需要权限控制
+        const ac = dependence['ac'];        
         const data = req.body;
         if (true) {
             ac.remove(data).then(() => {
@@ -45,6 +52,7 @@ module.exports = new (require('../controller.js'))('/api')
 
     router.post('/file', (req, res) => {
         // 上传文件
+        res.send({msg: 'not open', code: 0});
     })
 
     // router.get('/:article_name', (req, res) => {
