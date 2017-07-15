@@ -1,7 +1,7 @@
 module.exports = new (require('../controller.js'))({
     url: '/'
 })
-.bind((router, dependence) => {
+.bind((router, dependencies) => {
     router.get('/', (req, res) => {
         res.redirect(302,'/article');
     })
