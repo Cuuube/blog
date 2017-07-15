@@ -5,14 +5,53 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>{{ title }} | zxod说</title>
+    <link rel="stylesheet" type="text/css" href="/css/article/article.css">
 </head>
-<body>
-    <h1>{{ title }}</h1>
+<body data-id="{{ _id }}" data-fileName="{{ file_name }}">
+    <button type="button" class="toTop">↑</button>
+    <header class="middle"></header>
+     <section class="nec middle">
+        <a href="/">
+            <div class="nec-logo">
+                ZXOD
+            </div>
+        </a>
+    </section> 
+    <section class="body middle">
+        <div class="article-header add-padding">
+            <h1 class="article-title">
+                <!-- <a class="article-back-btn" href="/"><img src="/icon/back.svg" alt="Back to home"></a> -->
+                {{ title }}</h1>
+            <p class="article-time">{{ created_time }}</p>
+        </div>
+        <hr class="dividing"></hr>
+        <div class="article-area add-padding">
+            {{ content }}
+        </div>
+        <hr class="dividing"></hr>    
+        
+    </section>
+    
+    <section class="leg middle">
+        
+    </section>
+    <footer class="middle">
+        
+    </footer>
+
+
+
+
+
+
+    <!-- <h1>{{ title }}</h1>
     <small>{{ author }}</small><small>{{ created_time }}</small><small>{{ updated_time }}</small>
     <p>{{ description }}</p>
     {% for keyword in keywords %}
     <span>{{ keyword }}</span>
     {% endfor %}
-    <p>{{ content }}</p>
+    <p></p> -->
 </body>
+<script src="/js/article/article.js">
+</script>
 </html>

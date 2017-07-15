@@ -5,29 +5,60 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>写文章 | zxod说</title>
+    <link rel="stylesheet" type="text/css" href="/css/article/article.css">
 </head>
 <body>
-    <form action="/api/article" method="post">
-        <label for="">file name
-            <input type="" name="file_name" value="">
-        </label>
-        <label for="">title
-            <input type="" name="title" value="">
-        </label>
-        <label for="">author
-            <input type="" name="author" value="">
-        </label>
-        <label for="">keywords
-            <input type="" name="keywords" value="">
-        </label>
-        <label for="">description
-            <input type="" name="description" value="">
-        </label>
-        <label for="">content
-            <textarea name="content"></textarea>
-        </label>
-        <button type="submit">提交</button>
-    </form>
+    <header class="middle"></header>
+     <section class="nec middle">
+        <a href="/">
+            <div class="nec-logo">
+                ZXOD
+            </div>
+        </a>
+    </section> 
+    <section class="body middle">
+        <div class="article-header add-padding">
+            <h1 class="article-title">
+                <!-- <a class="article-back-btn" href="/"><img src="/icon/back.svg" alt="Back to home"></a> -->
+                写下一些东西</h1>
+            <p class="article-time">随心所欲</p>
+        </div>
+        <hr class="dividing"></hr>
+        <div class="write-area add-padding">
+             <!-- <form action="/api/article" method="post">  -->
+                <label class="form-control">文件名/路由名
+                    <input type="" name="file_name" value="">
+                </label>
+                <label class="form-control">文章标题
+                    <input type="" name="title" value="">
+                </label>
+                <label class="form-control">文章作者
+                    <input type="" name="author" value="">
+                </label>
+                <label class="form-control">关键字/标签
+                    <input type="" name="keywords" value="">
+                </label>
+                <label class="form-control">简介
+                    <input type="" name="description" value="">
+                </label>
+                <label class="form-control">内容
+                    <textarea name="content"></textarea>
+                </label>
+                <button type="button">提交</button>
+             <!-- </form>  -->
+        </div>
+        <hr class="dividing"></hr>    
+        
+    </section>
+    
+    <section class="leg middle">
+        
+    </section>
+    <footer class="middle">
+        
+    </footer>
+    
     
 </body>
+<script src="/js/article/write.js"></script>
 </html>

@@ -30,9 +30,9 @@ module.exports = class {
     param (obj) {
         let str = '?';
         for ( let x in obj) {
-            str = str + x + '=' + obj[x];
+            str = str + x + '=' + obj[x] + '&';
         }
-        return str;
+        return str.substr(0, str.length - 1);
     }
 
 };
