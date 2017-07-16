@@ -22,15 +22,14 @@ html, body {
     background: hsl(0, 0%, 98%);
 }
 
-.toTop {
+.floor-icon {
     position: fixed;
-    bottom: 20px;
-    right: 20px;
     padding: 0;
     width: 30px;
     height: 30px;
     background: transparent;
-    border: 1px solid hsl(0,72%,43%);
+    border: none;    
+    /* border: 1px solid hsl(0,72%,43%); */
     color: hsl(0,72%,43%);
     border-radius: 50%;
     line-height: 30px;
@@ -38,12 +37,17 @@ html, body {
     cursor: pointer;
     transition: opacity .3s;
 }
-.toTop:focus {
+.floor-icon:focus {
     outline: none;
 }
-.toTop:hover {
+.floor-icon:hover {
     opacity: .6;
     transition: opacity .3s;
+}
+
+.to-top {
+    bottom: 20px;
+    right: 20px;
 }
 
 .middle {

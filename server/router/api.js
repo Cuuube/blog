@@ -2,6 +2,7 @@ module.exports = new (require('../controller.js'))({
     url: '/api',
     dependencies: {
         ac: require('../db/articleDbController.js'),
+        lc: require('../db/loginDbController.js'),
     }
 })
 .bind((router, dependencies) => {
@@ -13,7 +14,6 @@ module.exports = new (require('../controller.js'))({
         }).catch((err) => {
             res.redirect('/error/500');
         })
-        
     })
 
     router.get('/sth', (req, res) => {
@@ -53,6 +53,20 @@ module.exports = new (require('../controller.js'))({
         } else {
             res.send({code: 0, msg: '您没权限提交文章!'});
         }
+    })
+
+    router.post('/login', (req, res) => {
+        const lc = dependencies['lc'];
+        // const pagePath = path.join('../templates', 'article', 'login.html');
+        const body = req.body;
+        const data = body.data;  //要是个字符串，然后服务器解码查询该字符串
+        //解码
+
+
+        //数据库查询，有的话返回身份cookie，没有的话返回认证失败json
+        
+        // res.cookie('isManage', 1, {maxAge: 60 * 1000});
+        res.send('Not Preperd');
     })
 
     router.delete('/article', (req, res) => {

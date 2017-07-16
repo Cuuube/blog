@@ -8,11 +8,6 @@
     <link rel="stylesheet" type="text/css" href="/css/article/index.css">
 </head>
 <body>
-    {% if isManage %}
-    <button type="button" class="floor-icon add-article" onclick="window.open('/article/write')"><img src="/icon/plus.svg"></button>
-    {% else %}
-    <button type="button" class="floor-icon login"><img src="/icon/user.svg"></button>    
-    {% endif %}
     <header class="middle"></header>
     <section class="nec middle">
         <div class="nec-logo">
@@ -20,14 +15,7 @@
         </div>
     </section>
     <section class="body middle">
-        {% for article in articleList %}
-        <a class="article-link" href="/article/{{ article.file_name }}">
-        <div class="article-header">
-            <h1 class="article-title">{{ article.title }}</h1>
-            <p class="article-time">{{ article.created_time }}</p>
-        </div>
-        </a>
-        {% endfor %}
+        
     </section>
     <section class="leg middle">
         

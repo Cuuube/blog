@@ -1,4 +1,14 @@
-module.exports = new (require('../controller.js'))({
+const Route = require('../controller.js');
+class ArticleRoute extends Route {
+    constructor (config) {
+        super(config);
+    }
+    judgeManage (req) {
+        return !!req.cookies.isManage
+    }
+}
+
+module.exports = new ArticleRoute ({
     url: '/article',
     dependencies: {
         md: require('../utils/markdown.js'),
@@ -8,20 +18,24 @@ module.exports = new (require('../controller.js'))({
     }
 })
 .bind((router, dependencies) => {
+    // const self = this;
     router.get('/', (req, res) => {
         const path = dependencies['path'];
         const getter = dependencies['getter'];
         const fomateDate = dependencies['fomateDate'];        
-        const pagePath = path.join('../templates', 'article', 'index.html')
+        const pagePath = path.join('../templates', 'article', 'index.html');
+        // const isManage = self.judgeManage(req);
+        
         getter.get('/api/article').then((resp) => {
-            resp.data.forEach(val => {
-                val.created_time = fomateDate(val.created_time);
-            })
             if (resp.data.length === 0) {
                 res.redirect('/error/404');
             } else {
+                resp.data.forEach(val => {
+                    val.created_time = fomateDate(val.created_time);
+                })
                 res.render(pagePath, {
-                    articleList: resp.data
+                    articleList: resp.data,
+                    isManage: !!req.cookies.isManage
                 });
             }
         }).catch(err => {

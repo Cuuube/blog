@@ -17,6 +17,37 @@ html, body {
     background: hsl(0, 0%, 98%);
 }
 
+.hidden {
+    display: none!important;
+}
+
+.floor-icon {
+    position: fixed;
+    padding: 0;
+    width: 30px;
+    height: 30px;
+    background: transparent;
+    border: none;    
+    /* border: 1px solid hsl(0,72%,43%); */
+    color: hsl(0,72%,43%);
+    border-radius: 50%;
+    line-height: 30px;
+    font-size: 20px;
+    cursor: pointer;
+    transition: opacity .3s;
+}
+.floor-icon:focus {
+    outline: none;
+}
+.floor-icon:hover {
+    opacity: .6;
+    transition: opacity .3s;
+}
+
+.add-article, .login {
+    bottom: 20px;
+    right: 20px;
+}
 
 .middle {
     margin: 0 auto 50px;

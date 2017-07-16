@@ -23,7 +23,7 @@ module.exports = class CreatServer {
     }
     addError () {
         this.useMiddleware((req, res, next) => {
-            const error = new Error('Noooooot Found');
+            const error = new Error(` "${ req.originalUrl }" Not Found`);
             error.status = 404;
             next(error);
         });

@@ -1,5 +1,6 @@
 const Server = require('./server/server.js');
 const bodyParser = require('body-parser');
+const cookieParser = require('cookie-parser');
 const path = require('path');
 const port = require('./server/config.js').port;
 
@@ -15,8 +16,10 @@ new Server({
 })
 .useMiddleware(bodyParser.json())
 .useMiddleware(bodyParser.urlencoded({ extended: false }))
+.useMiddleware(cookieParser())
 .setRoute(require('./server/router/index.js'))
 .setRoute(require('./server/router/api.js'))
+.setRoute(require('./server/router/login.js'))
 .setRoute(require('./server/router/article.js'))
 .setRoute(require('./server/router/error.js'))
 .addError()
