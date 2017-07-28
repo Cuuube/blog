@@ -42,6 +42,13 @@ class Page extends require('./MainPage') {
     clearArray () {
         this.array = [];
     }
+
+    sendData (data) {
+        // doSth
+        this.bird.post('/login', data).then(res => {
+            
+        }).catch(e => {});
+    }
 }
 
 let page = new Page();

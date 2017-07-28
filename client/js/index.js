@@ -7,8 +7,7 @@ class Page extends require('./MainPage') {
         let bird = this.bird;
 
         $('.login').on('click', () => {
-            bird.get('/api/test', {a:1,b:2}).then(res => console.log(res));
-            bird.post('/api/test', {a:1,b:2}).then(res => console.log(res));
+            location.href = '/login';
         })
     }
 }
