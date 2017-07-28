@@ -35,4 +35,5 @@ gulp.task('css', () => {
 
 gulp.task('watch', () => {
     gulp.watch(['./client/js/**/*.js'], ['browserify']);
+    gulp.watch(['./client/css/**/*.css'], ['css']);
 })
