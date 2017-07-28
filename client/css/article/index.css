@@ -1,0 +1,113 @@
+/*@font-face {
+    font-family: "Bitstream Vera Serif Bold";
+    src: url("https://mdn.mozillademos.org/files/2468/VeraSeBd.ttf");
+}*/
+
+* {
+    margin-top: 0;
+}
+
+a, a:link, a:visited, a:hover, a:active {
+    color: black;
+    text-decoration: none;
+}
+html, body {
+    margin: 0;
+    padding: 0;
+    background: hsl(0, 0%, 98%);
+}
+
+.hidden {
+    display: none!important;
+}
+
+.floor-icon {
+    position: fixed;
+    padding: 0;
+    width: 30px;
+    height: 30px;
+    background: transparent;
+    border: none;    
+    /* border: 1px solid hsl(0,72%,43%); */
+    color: hsl(0,72%,43%);
+    border-radius: 50%;
+    line-height: 30px;
+    font-size: 20px;
+    cursor: pointer;
+    transition: opacity .3s;
+}
+.floor-icon:focus {
+    outline: none;
+}
+.floor-icon:hover {
+    opacity: .6;
+    transition: opacity .3s;
+}
+
+.add-article, .login {
+    bottom: 20px;
+    right: 20px;
+}
+
+.middle {
+    margin: 0 auto 50px;
+    width: 720px;
+}
+@media (max-width: 720px) {
+    .middle{
+        width: 100%;
+    }
+}
+
+header.middle {
+    margin-bottom: 120px;
+}
+
+.nec {
+    margin-bottom: 20px;
+    cursor: default;
+}
+
+.nec-logo {
+    padding-left: 20px;
+    font-weight: 500;
+    font-size: 70px;
+    color: hsl(0,72%,43%);
+    font-family: 'Chalkduster', 'Marker Felt';
+    transition: opacity .3s;
+}
+.nec-logo:hover {
+    opacity: .6;
+    transition: opacity .3s;
+}
+
+.body.middle {
+    margin-bottom: 150px;
+}
+
+
+
+.article-header {
+    padding: 20px;
+    transition: background .3s;    
+}
+
+.article-header:hover {
+    transition: background .3s;
+    background: hsl(200, 5%, 96%);
+}
+
+.article-title {
+    margin-bottom: 10px;
+    font-size: 20px;
+    font-weight: 500;
+    color: hsl(0, 0%, 20%);
+    font-family: '兰亭黑-简', '微软雅黑';
+}
+
+.article-time {
+    margin-bottom: 0px;
+    font-size: 14px;
+    color: hsl(0, 0%, 50%);
+}
+

@@ -198,4 +198,4 @@ class MyDom {
     
 }
 
-let $ = val => new MyDom(val);
+module.exports = val => new MyDom(val);

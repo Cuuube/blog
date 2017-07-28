@@ -1,0 +1,231 @@
+/*@font-face {
+    font-family: "Bitstream Vera Serif Bold";
+    src: url("https://mdn.mozillademos.org/files/2468/VeraSeBd.ttf");
+}*/
+
+* {
+    margin-top: 0;
+}
+
+p {
+    color: hsl(0, 0%, 20%);
+}
+
+a, a:link, a:visited, a:hover, a:active {
+    color: black;
+    text-decoration: none;
+}
+
+html, body {
+    margin: 0;
+    padding: 0;
+    background: hsl(0, 0%, 98%);
+}
+
+.floor-icon {
+    position: fixed;
+    padding: 0;
+    width: 30px;
+    height: 30px;
+    background: transparent;
+    border: none;    
+    /* border: 1px solid hsl(0,72%,43%); */
+    color: hsl(0,72%,43%);
+    border-radius: 50%;
+    line-height: 30px;
+    font-size: 20px;
+    cursor: pointer;
+    transition: opacity .3s;
+}
+.floor-icon:focus {
+    outline: none;
+}
+.floor-icon:hover {
+    opacity: .6;
+    transition: opacity .3s;
+}
+
+.to-top {
+    bottom: 20px;
+    right: 20px;
+}
+
+.middle {
+    margin: 0 auto 50px;
+    width: 720px;
+}
+@media (max-width: 720px) {
+    .middle{
+        width: 100%;
+    }
+}
+
+header.middle {
+    margin-bottom: 120px;
+}
+
+.nec {
+    margin-bottom: 20px;
+    cursor: default;
+}
+
+.nec-logo {
+    padding-left: 20px;
+    font-weight: 500;
+    font-size: 70px;
+    color: hsl(0,72%,43%);
+    font-family: 'Chalkduster', 'Marker Felt';
+    transition: opacity .3s;
+}
+.nec-logo:hover {
+    opacity: .6;
+    transition: opacity .3s;
+}
+
+.body.middle {
+    margin-bottom: 150px;
+}
+
+.article-area {
+    
+}
+
+.article-area h1 {
+    border-bottom: 1px solid hsl(0, 0%, 90%);
+    padding-bottom: 10px;
+    margin-top: 30px;
+    font-size: 26px;
+}
+.article-area *:first-child {
+    margin-top: 0px;
+}
+
+.article-area h2 {
+    /* border-bottom: 1px solid hsl(0, 0%, 90%); */
+    padding-bottom: 5px;
+    margin-top: 22px;
+    font-size: 22px;
+}
+
+.article-area p {
+    line-height: 1.5;
+    font-size: 14px;
+    color: hsl(0, 0%, 20%);
+    font-weight: 400;
+}
+
+.article-area code {
+    position: relative;
+    top: -1px;
+    margin: 0 3px;
+    padding: 1px 3px;
+    font-size: .7em;
+    border-radius: 3px;
+    border: 1px solid hsl(0, 0%, 85%);
+    color: hsl(553, 100%, 48%);
+    background: hsl(240, 11%, 96%);
+}
+
+.article-area pre {
+    padding: 20px 15px;
+    overflow: auto;
+    border-radius: 3px;
+    border: 1px solid hsl(0, 0%, 85%);
+}
+.article-area pre code {
+    border-radius: 0px;
+    border: none;
+    margin: 0;
+    padding: 0;
+    top: 0px;
+    color: #333;
+    position: relative;
+    background: transparent;
+}
+
+
+
+
+
+.article-title {
+    position: relative;
+    margin-bottom: 10px;
+    font-size: 24px;
+    font-weight: 500;
+    color: hsl(0, 0%, 20%);
+    font-family: '兰亭黑-简', '微软雅黑';
+}
+
+.article-back-btn {
+    position: absolute;
+    left: -20px;
+    top: 20px;
+    width: 26px;
+    height: 26px;
+    border: 1px solid hsl(0, 0%, 70%);
+    border-radius: 50%;
+    line-height: 26px;
+    text-align: center;
+    font-size: 20px;
+}
+
+.article-time {
+    margin-bottom: 0px;
+    font-size: 14px;
+    color: hsl(0, 0%, 50%);
+}
+
+.add-padding {
+    padding: 20px;
+}
+
+.dividing {
+    margin: 20px;
+    padding: 0;
+    padding-left: 50px;
+    height: 0px;
+    width: 50px;
+    color: hsl(0, 0%, 70%);
+}
+
+
+
+
+/* write page */
+
+.write-area .form-control {
+    display: block;
+    font-size: 14px;
+}
+
+.write-area .form-control input, .write-area .form-control textarea {
+    box-sizing: border-box;
+    display: block;
+    margin: 5px 0 10px 0;
+    padding: 5px 10px;
+    width: 100%;
+    border: 1px solid hsl(0, 0%, 70%);
+    border-radius: 5px;
+}
+.write-area .form-control input:focus, .write-area .form-control textarea:focus {
+    outline: none;
+}
+.write-area .form-control input{
+    
+    height: 35px;
+    line-height: 25px;
+    
+}
+.write-area .form-control textarea{
+    resize: none;
+    overflow: auto;
+    padding: 10px 10px;
+    height: 200px;
+}
+.write-area button[type="button"]{
+    border: 1px solid hsl(0,72%,43%);
+    border-radius: 5px;
+    padding: 7px 25px;
+    color: hsl(0,72%,43%);
+    background: transparent;
+}
