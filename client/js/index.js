@@ -4,11 +4,11 @@ class Page extends require('./MainPage') {
     }
     ready () {
         let $ = this.$;
-        let getter = this.getter;
+        let bird = this.bird;
 
         $('.login').on('click', () => {
-            getter.get('/api/test', {a:1,b:2}).then(res => console.log(res));
-            getter.post('/api/test', {a:1,b:2}).then(res => console.log(res));
+            bird.get('/api/test', {a:1,b:2}).then(res => console.log(res));
+            bird.post('/api/test', {a:1,b:2}).then(res => console.log(res));
         })
     }
 }

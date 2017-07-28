@@ -1,4 +1,4 @@
-class Getter {
+class Bird {
     constructor() {
         // this.xmlhttp = this.createXHR();
     }
@@ -114,4 +114,4 @@ class Getter {
     }
 }
 
-module.exports = Getter;
+module.exports = Bird;

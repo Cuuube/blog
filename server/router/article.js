@@ -13,7 +13,7 @@ module.exports = new ArticleRoute ({
     dependencies: {
         md: require('../utils/markdown.js'),
         path: require('path'),
-        getter: new (require('../utils/getter.js'))(require('../config.js').origin),
+        bird: new (require('../utils/bird.js'))(require('../config.js').origin),
         fomateDate: require('../utils/fomateDate.js'),
     }
 })
@@ -21,12 +21,12 @@ module.exports = new ArticleRoute ({
     // const self = this;
     router.get('/', (req, res) => {
         const path = dependencies['path'];
-        const getter = dependencies['getter'];
+        const bird = dependencies['bird'];
         const fomateDate = dependencies['fomateDate'];        
         const pagePath = path.join('../templates', 'article', 'index.html');
         // const isManage = self.judgeManage(req);
         
-        getter.get('/api/article').then((resp) => {
+        bird.get('/api/article').then((resp) => {
             if (resp.data.length === 0) {
                 res.redirect('/error/404');
             } else {
@@ -51,8 +51,8 @@ module.exports = new ArticleRoute ({
 
     // 不安全的请求接口，请使用 delete /api/article
     router.get('/delete/:id', (req, res) => {
-        const getter = dependencies['getter'];        
-        getter.delete('/api/article', {_id: id}).then((resp) => {
+        const bird = dependencies['bird'];        
+        bird.delete('/api/article', {_id: id}).then((resp) => {
             res.send('success');
         }).catch(err => {
             res.redirect('/error/500');
@@ -62,11 +62,11 @@ module.exports = new ArticleRoute ({
     // 渲染页面接口
     router.get('/:article_name', (req, res) => {
         const path = dependencies['path'];
-        const getter = dependencies['getter'];
+        const bird = dependencies['bird'];
         const md = dependencies['md'];
         const article_name = req.params.article_name;
         const pagePath = path.join('../templates', 'article', 'article.html');
-        getter.get('/api/article', {file_name: article_name}).then((resp) => {
+        bird.get('/api/article', {file_name: article_name}).then((resp) => {
             if (resp.data.length === 0) {
                 res.redirect('/error/404');
             } else {

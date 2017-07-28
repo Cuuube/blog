@@ -4,11 +4,11 @@ class Page extends require('./MainPage') {
     }
     ready () {
         let $ = this.$;
-        let getter = this.getter;
+        let bird = this.bird;
 
         $('.login').on('click', () => {
-            getter.get('/api/test', {a:1,b:2}).then(res => console.log(res));
-            getter.post('/api/test', {a:1,b:2}).then(res => console.log(res));
+            bird.get('/api/test', {a:1,b:2}).then(res => console.log(res));
+            bird.post('/api/test', {a:1,b:2}).then(res => console.log(res));
         })
         $('.write-area button[type="button"]').on('click', (e) => {
             this.submit();
@@ -16,7 +16,7 @@ class Page extends require('./MainPage') {
     }
     submit () {
         let $ = this.$;
-        let getter = this.getter;
+        let bird = this.bird;
 
         const data = {
             file_name: $('input[name="file_name"]').val() || this.getRandomNumber(),
@@ -27,7 +27,7 @@ class Page extends require('./MainPage') {
             content: $('textarea[name="content"]').val()
         };
         // console.log(data);
-        getter.post('/api/article', data).then((res) => {
+        bird.post('/api/article', data).then((res) => {
             if (res.code === 0) {
                 alert(res.msg);
                 return false;

@@ -1,7 +1,7 @@
 module.exports = class MainPage {
     constructor () {
         this.$ = require('../utils/dom');
-        this.getter = new (require('../utils/getter'))();
+        this.bird = new (require('../utils/bird'))();
         window.onload = () => {
             this.ready();
         }
