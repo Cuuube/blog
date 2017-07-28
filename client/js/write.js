@@ -20,11 +20,15 @@ class Page extends require('./MainPage') {
 
         const data = {
             file_name: $('input[name="file_name"]').val() || this.getRandomNumber(),
-            title: $('input[name="title"]').val() || 'No title',
+            title: $('input[name="title"]').val(),
             author: $('input[name="author"]').val() || '铜方块',
             keywords: this.parseTags($('input[name="keywords"]').val()) || [],
-            description: $('input[name="description"]').val(),
+            description: $('input[name="description"]').val() || 'no description',
             content: $('textarea[name="content"]').val()
+        };
+        if (!this.check(data)) {
+            alert('请至少填写标题和内容！')
+            return false;
         };
         // console.log(data);
         bird.post('/api/article', data).then((res) => {
@@ -34,6 +38,13 @@ class Page extends require('./MainPage') {
             }
             location.href = '/article/' + data.file_name;
         }).catch(e => console.error(e));
+    }
+    check (obj) {
+        let flag = true;
+        for (let x in obj) {
+            if (!obj[x]) flag = false;
+        }
+        return flag;
     }
     getRandomNumber() {
         return Math.floor(10000000 * Math.random());
