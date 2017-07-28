@@ -19,7 +19,13 @@ class Bird {
             try {
                 xmlhttp.onreadystatechange = function () {
                     if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
-                        resolve(JSON.parse(xmlhttp.responseText));
+                        let result;
+                        try {
+                            result = JSON.parse(xmlhttp.responseText)
+                        } catch (e) {
+                            result = xmlhttp.responseText;
+                        }
+                        resolve(result);
                     }
                 }
                 xmlhttp.open("GET", _url, true);
@@ -37,7 +43,13 @@ class Bird {
             try {
                 xmlhttp.onreadystatechange = function () {
                     if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
-                        resolve(JSON.parse(xmlhttp.responseText));
+                        let result;
+                        try {
+                            result = JSON.parse(xmlhttp.responseText)
+                        } catch (e) {
+                            result = xmlhttp.responseText;
+                        }
+                        resolve(result);
                     }
                     
                 }
@@ -56,7 +68,13 @@ class Bird {
             let _url = url;
             xmlhttp.onreadystatechange = function () {
                 if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
-                    resolve(JSON.parse(xmlhttp.responseText));
+                    let result;
+                    try {
+                        result = JSON.parse(xmlhttp.responseText)
+                    } catch (e) {
+                        result = xmlhttp.responseText;
+                    }
+                    resolve(result);
                 }
             }
             xmlhttp.open("POST", _url, true);
