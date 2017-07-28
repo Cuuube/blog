@@ -16,10 +16,6 @@ module.exports = new (require('../controller.js'))({
         })
     })
 
-    router.get('/sth', (req, res) => {
-        res.send('sth');
-    })
-
     router.post('/article', (req, res) => {
         // 上传新文章, 需要权限控制
         const ac = dependencies['ac'];
@@ -93,4 +89,16 @@ module.exports = new (require('../controller.js'))({
     //     let article_name = req.params.article_name;
     //     res.send(article_name);
     // })
+
+    router.get('/test', (req, res) => {
+        let result = `You are requesting "${req.baseUrl}", the full-url is "${req.originalUrl}".
+Accroding parsed, json of require object is ${JSON.stringify(req.query) } .`
+        res.send(result);
+    })
+
+    router.post('/test', (req, res) => {
+        let result = `You are requesting "${req.baseUrl}", the full-url is "${req.originalUrl}".
+Accroding parsed, json of require object is ${JSON.stringify(req.body) } .`
+        res.send(result);
+    })
 })
