@@ -1,12 +1,12 @@
-class Bird {
+module.exports = class Bird {
     constructor() {
         // this.xmlhttp = this.createXHR();
     }
     createXHR() {
         let xmlhttp;
-        if (window.XMLHttpRequest) { // code for IE7+, Firefox, Chrome, Opera, Safari
+        if (window.XMLHttpRequest) {
             xmlhttp = new XMLHttpRequest();
-        } else { // code for IE6, IE5
+        } else {
             xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
         }
         return xmlhttp;
@@ -51,7 +51,6 @@ class Bird {
                         }
                         resolve(result);
                     }
-                    
                 }
                 xmlhttp.open("POST", _url, true);
                 xmlhttp.setRequestHeader("Content-type","application/json");
@@ -66,20 +65,24 @@ class Bird {
         return new Promise((resolve, reject) => {
             let xmlhttp = this.createXHR();
             let _url = url;
-            xmlhttp.onreadystatechange = function () {
-                if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
-                    let result;
-                    try {
-                        result = JSON.parse(xmlhttp.responseText)
-                    } catch (e) {
-                        result = xmlhttp.responseText;
+            try {
+                xmlhttp.onreadystatechange = function () {
+                    if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+                        let result;
+                        try {
+                            result = JSON.parse(xmlhttp.responseText)
+                        } catch (e) {
+                            result = xmlhttp.responseText;
+                        }
+                        resolve(result);
                     }
-                    resolve(result);
                 }
+                xmlhttp.open("POST", _url, true);
+                xmlhttp.setRequestHeader("Content-type","application/x-www-form-urlencoded");
+                xmlhttp.send(self.createFormData(data));
+            } catch (e) {
+                reject(e);
             }
-            xmlhttp.open("POST", _url, true);
-            xmlhttp.setRequestHeader("Content-type","application/x-www-form-urlencoded");
-            xmlhttp.send(self.createFormData(data));
         })
     }
     parseData(obj, isGet) {
@@ -131,5 +134,3 @@ class Bird {
         // data.append('imgTitle', 'data3');
     }
 }
-
-module.exports = Bird;

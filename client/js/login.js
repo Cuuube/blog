@@ -5,10 +5,6 @@ class Page extends require('./MainPage') {
     }
 
     ready () {
-        this.bind();
-    }
-
-    bind () {
         let $ = this.$;
         let self = this;
 
@@ -33,7 +29,6 @@ class Page extends require('./MainPage') {
             console.log(this.getArray());
             this.clearArray();
         })
-
     }
 
     pushArray (data) {
@@ -50,4 +45,3 @@ class Page extends require('./MainPage') {
 }
 
 let page = new Page();
-

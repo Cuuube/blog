@@ -17,7 +17,7 @@
 
 
 
-class MyDom {
+class Doom {
     constructor (selector) {
         if (selector instanceof Document) {
             this[0] = document;
@@ -142,7 +142,7 @@ class MyDom {
     }
 
     append (element) {
-        // if (element instanceof MyDom || (element instanceof NodeList)) {
+        // if (element instanceof Doom || (element instanceof NodeList)) {
         //     element = element[0];
         // }
         if (element.length > 1) {
@@ -154,7 +154,7 @@ class MyDom {
         return this;
     }
     prepend (element) {
-        // if (element instanceof MyDom || (element instanceof NodeList)) {
+        // if (element instanceof Doom || (element instanceof NodeList)) {
         //     element = element[0];
         // }
         if (element.length >= 1) {
@@ -215,4 +215,4 @@ class MyDom {
     
 }
 
-module.exports = val => new MyDom(val);
+module.exports = sth => new Doom(sth);
