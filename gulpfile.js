@@ -9,11 +9,10 @@ const es = require('event-stream');
 const path = require('path');
 
 gulp.task('browserify', () => {
-    let files = [
-        './client/js/article.js',
-        './client/js/write.js',
-        './client/js/index.js'
-    ];
+    let targetPath = './client/js/';
+    let files = fs.readdirSync(targetPath)
+                .map(filename => targetPath + filename);
+                
     let tasks = files.map(entry => {
         return browserify({entries: [entry]})
         .bundle()
