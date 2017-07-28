@@ -19,14 +19,31 @@
 
 class MyDom {
     constructor (selector) {
-        var __ele = window.document.querySelectorAll(selector);
-        // if (__ele.length === 0) {
-        //     __ele = __ele[0];
-        // }
-        this.length = __ele.length;
-        for (let i = 0; i < this.length; i++) {
-            this[i] = __ele[i];
+        if (selector instanceof Document) {
+            this[0] = document;
+            this.length = 1;
+        } else if (typeof selector === 'function') {
+            window.onload = selector;
+        } else  if (typeof selector === 'string') {
+            var __ele = window.document.querySelectorAll(selector);
+            // if (__ele.length === 0) {
+            //     __ele = __ele[0];
+            // }
+            this.length = __ele.length;
+            for (let i = 0; i < this.length; i++) {
+                this[i] = __ele[i];
+            }
+        } else if (selector instanceof Element){
+            this[0] = selector;
+            this.length = 1;
+        } else if (selector.length > 0) {
+            for (let x in selector) {
+                this[x] = selector[x];
+            }
+        } else {
+            console.warn('Unexcept type!');
         }
+        
     }
     all (callback) {
         for (let i = 0; i < this.length; i++) {

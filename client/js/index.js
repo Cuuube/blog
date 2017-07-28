@@ -1,10 +1,16 @@
-const $ = require('../utils/dom');
-// const $ = require('jquery');
-const Getter = require('../utils/getter');
+class Page extends require('./MainPage') {
+    constructor () {
+        super();
+    }
+    ready () {
+        let $ = this.$;
+        let getter = this.getter;
 
-let getter = new Getter();
-$('.login').on('click', () => {
-    // 同时发两条会冲突
-    getter.get('/api/test', {a:1,b:2}).then(res => console.log(res));
-    getter.post('/api/test', {a:1,b:2}).then(res => console.log(res));
-})
+        $('.login').on('click', () => {
+            getter.get('/api/test', {a:1,b:2}).then(res => console.log(res));
+            getter.post('/api/test', {a:1,b:2}).then(res => console.log(res));
+        })
+    }
+}
+
+let page = new Page();

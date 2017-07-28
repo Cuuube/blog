@@ -21,7 +21,7 @@ module.exports = new (require('../controller.js'))({
         const ac = dependencies['ac'];
         const data = req.body;
         if (!data.file_name) {
-            res.status(400).send({code: 0, msg: '文章格式错误，提交失败!'});
+            res.status(200).send({code: 0, msg: '文章格式错误，提交失败!'});
             return false;
         }
         if (true) {
@@ -40,10 +40,10 @@ module.exports = new (require('../controller.js'))({
             }).catch((err) => {
                 switch (err.code) {
                     case 2: 
-                        res.status(400).send({code: 0, msg: '文件名已存在，请更换文件名。'});
+                        res.status(200).send({code: 0, msg: '文件名已存在，请更换文件名。'});
                         break;
                     default:
-                        res.status(400).send({code: 0, msg: '出了些情况，提交失败!'});
+                        res.status(200).send({code: 0, msg: '出了些情况，提交失败!'});
                 }
             });
         } else {

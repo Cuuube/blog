@@ -1,32 +1,44 @@
-(() => {
-    const $ = require('../utils/dom');
-    const Getter = require('../utils/getter');
-    const getter = new Getter();
+class Page extends require('./MainPage') {
+    constructor () {
+        super();
+    }
+    ready () {
+        let $ = this.$;
+        let getter = this.getter;
 
-    $('.write-area button[type="button"]').on('click', (e) => {
-        submit();
-    })
+        $('.login').on('click', () => {
+            getter.get('/api/test', {a:1,b:2}).then(res => console.log(res));
+            getter.post('/api/test', {a:1,b:2}).then(res => console.log(res));
+        })
+        $('.write-area button[type="button"]').on('click', (e) => {
+            this.submit();
+        })
+    }
+    submit () {
+        let $ = this.$;
+        let getter = this.getter;
 
-    function submit() {
         const data = {
-            file_name: document.querySelector('input[name="file_name"]').value || getRandomNumber(),
-            title: document.querySelector('input[name="title"]').value || 'No title',
-            author: document.querySelector('input[name="author"]').value || '铜方块',
-            keywords: parseTags(document.querySelector('input[name="keywords"]').value) || [],
-            description: document.querySelector('input[name="description"]').value,
-            content: document.querySelector('textarea[name="content"]').value
+            file_name: $('input[name="file_name"]').val() || this.getRandomNumber(),
+            title: $('input[name="title"]').val() || 'No title',
+            author: $('input[name="author"]').val() || '铜方块',
+            keywords: this.parseTags($('input[name="keywords"]').val()) || [],
+            description: $('input[name="description"]').val(),
+            content: $('textarea[name="content"]').val()
         };
-        console.log(data);
+        // console.log(data);
         getter.post('/api/article', data).then((res) => {
-            console.log(res);
+            if (res.code === 0) {
+                alert(res.msg);
+                return false;
+            }
+            location.href = '/article/' + data.file_name;
         }).catch(e => console.error(e));
     }
-
-    function getRandomNumber() {
+    getRandomNumber() {
         return Math.floor(10000000 * Math.random());
     }
-
-    function parseTags(str) {
+    parseTags(str) {
         let arr = str.split(',')
             .map((val) => val.replace(/^\s+|\s+$/g, ''))
             .filter((val) => (val !== '') ? true : false);
@@ -36,5 +48,6 @@
             return arr;
         }
     }
+}
 
-})();
+let page = new Page();

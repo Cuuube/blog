@@ -19,9 +19,7 @@ class Getter {
             try {
                 xmlhttp.onreadystatechange = function () {
                     if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
-                        resolve(xmlhttp.responseText);
-                    } else if (xmlhttp.readyState == 4 && xmlhttp.status != 200) {
-                        reject(new Error('Ajax Error!'))
+                        resolve(JSON.parse(xmlhttp.responseText));
                     }
                 }
                 xmlhttp.open("GET", _url, true);
@@ -39,9 +37,7 @@ class Getter {
             try {
                 xmlhttp.onreadystatechange = function () {
                     if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
-                        resolve(xmlhttp.responseText);
-                    } else if (xmlhttp.readyState == 4 && xmlhttp.status != 200) {
-                        reject(new Error('Ajax Error!'))
+                        resolve(JSON.parse(xmlhttp.responseText));
                     }
                     
                 }
@@ -60,9 +56,7 @@ class Getter {
             let _url = url;
             xmlhttp.onreadystatechange = function () {
                 if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
-                    resolve(xmlhttp.responseText);
-                } else if (xmlhttp.readyState == 4 && xmlhttp.status != 200) {
-                    reject(new Error('Ajax Error!'))
+                    resolve(JSON.parse(xmlhttp.responseText));
                 }
             }
             xmlhttp.open("POST", _url, true);
