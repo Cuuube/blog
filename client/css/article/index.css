@@ -111,3 +111,35 @@ header.middle {
     color: hsl(0, 0%, 50%);
 }
 
+/* login part */
+#main-box {
+    position: relative;
+    width: 500px;
+    height: 500px;
+}
+.login-point {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: hsl(0, 0%, 70%);
+    position: absolute;
+    cursor: pointer;
+}
+.row1 {
+    left: 10%;
+}
+.row2 {
+    left: 45%;
+}
+.row3 {
+    left: 80%;
+}
+.col1 {
+    top: 10%;
+}
+.col2 {
+    top: 45%;
+}
+.col3 {
+    top: 80%;
+}

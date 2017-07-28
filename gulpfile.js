@@ -12,7 +12,7 @@ gulp.task('browserify', () => {
     let targetPath = './client/js/';
     let files = fs.readdirSync(targetPath)
                 .map(filename => targetPath + filename);
-                
+
     let tasks = files.map(entry => {
         return browserify({entries: [entry]})
         .bundle()
@@ -26,6 +26,13 @@ gulp.task('browserify', () => {
     return es.merge.apply(null, tasks);
 });
 
-gulp.task('watch', function () {
+gulp.task('css', () => {
+    gulp.src('./client/css/**/*.css')
+        // .pipe(sass({ outputStyle: 'expanded' }))
+        .pipe(gulp.dest('./static/css'));
+        // .dest('./static/test');
+})
+
+gulp.task('watch', () => {
     gulp.watch(['./client/js/**/*.js'], ['browserify']);
 })
