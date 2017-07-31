@@ -101,4 +101,11 @@ Accroding parsed, json of require object is ${JSON.stringify(req.query) } .`
 Accroding parsed, json of require object is ${JSON.stringify(req.body) } .`
         res.send(result);
     })
+
+    router.get('/jsonptest', (req, res) => {
+        let cbName = req.query.callback;
+        let str = '{a:"b",b:"c"}';
+        let resStr = `${cbName}(${str})`;
+        res.send(resStr);
+    })
 })

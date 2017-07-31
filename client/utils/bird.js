@@ -134,25 +134,32 @@ module.exports = class Bird {
         // data.append('imgTitle', 'data3');
     }
 
-    jsonp(url, config, callback) {  // 有bug
+    jsonp(url, config, callback) {
+        let cbName = 'callback';        
         let script = document.createElement('script');
-        let fnName = config.callback ? config.callback : '__jsonpName';
-        
-        url = url + this.parseData(config, true); // 需要解析url
+        if (!config) {
+            url += '?callback=' + cbName;
+        } else if (!!config && !config.callback) {
+            config.callback = cbName;
+            url = url + this.parseData(config, true);
+        } else {
+            cbName = config.callback;
+            url = url + this.parseData(config, true);         
+        }
         script.src = url;
-            document.body.appendChild(script); 
-            script.onload = function (e) {
-                window[fnName] = null;
-                document.body.removeChild(e.target);
-            }
-            script.onerror = function (e) {
-                window[fnName] = null;
-                document.body.removeChild(e.target);
-            }   
+        document.body.appendChild(script); 
+        script.onload = function (e) {
+            window[cbName] = null;
+            document.body.removeChild(e.target);
+        }
+        script.onerror = function (e) {
+            window[cbName] = null;
+            document.body.removeChild(e.target);
+        }
         
         return new Promise((resolve, reject) => {
             try {
-                window[fnName] = function (res) {
+                window[cbName] = function (res) {
                     resolve(res);
                 }
             } catch (e) {
