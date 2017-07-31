@@ -133,4 +133,31 @@ module.exports = class Bird {
         // data.append('imgTitle', 'data2';
         // data.append('imgTitle', 'data3');
     }
+
+    jsonp(url, config, callback) {  // 有bug
+        let script = document.createElement('script');
+        let fnName = config.callback ? config.callback : '__jsonpName';
+        
+        url = url + this.parseData(config, true); // 需要解析url
+        script.src = url;
+            document.body.appendChild(script); 
+            script.onload = function (e) {
+                window[fnName] = null;
+                document.body.removeChild(e.target);
+            }
+            script.onerror = function (e) {
+                window[fnName] = null;
+                document.body.removeChild(e.target);
+            }   
+        
+        return new Promise((resolve, reject) => {
+            try {
+                window[fnName] = function (res) {
+                    resolve(res);
+                }
+            } catch (e) {
+                reject(e);
+            }
+        })
+    }
 }
