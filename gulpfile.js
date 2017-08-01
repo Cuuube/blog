@@ -11,6 +11,11 @@ const path = require('path');
 gulp.task('browserify', () => {
     let targetPath = './client/js/';
     let files = fs.readdirSync(targetPath)
+                .filter(filename => path.extname(filename) === '.js')        
+                .concat([
+                    // 其他单独的文件写在这里
+                    // 'utils/utils.js'
+                ])
                 .map(filename => targetPath + filename);
 
     let tasks = files.map(entry => {
