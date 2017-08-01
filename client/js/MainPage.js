@@ -6,7 +6,5 @@ module.exports = class MainPage {
             this.ready();
         }
     }
-    ready () {
-        
-    }
+    ready () {}
 }

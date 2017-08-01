@@ -36,12 +36,16 @@ class Doom {
         } else if (selector instanceof Element){
             this[0] = selector;
             this.length = 1;
-        } else if (selector.length > 0) {
+        } else if (selector.length > 0 && selector[0] instanceof Element) {
             for (let x in selector) {
-                this[x] = selector[x];
+                if (!isNaN(parseInt(x))) {
+                    this[x] = selector[x];
+                }
             }
+            this.length = selector.length;
         } else {
             console.warn('Unexcept type!');
+            this.length = 0;
         }
         
     }
@@ -211,6 +215,18 @@ class Doom {
     empty () {
         this[0].innerHTML = '';
         return this;
+    }
+
+    data (dataName, value) {
+        if (!dataName) {
+            return this[0].dataset;
+        } else if (!value) {
+            return this[0].dataset[dataName];
+        } else {
+            this.all(val => {
+                val.dataset[dataName] = value;
+            })
+        }
     }
     
 }
