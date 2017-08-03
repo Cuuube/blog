@@ -88,8 +88,9 @@ class Doom {
     addClass (string) {
         this.all((val) => {
             try {
-                let __oldClassName = val.className;
-                val.className = __oldClassName + ' ' + string;
+                val.classList.add(string);
+                // let __oldClassName = val.className;
+                // val.className = __oldClassName + ' ' + string;
             } catch (e) {}
         });
         return this;
@@ -97,10 +98,11 @@ class Doom {
     removeClass (string) {
         this.all((val) => {
             try {
-                let __oldClassName = val.className;
-                if (__oldClassName.match(val)) {
-                    val.className = __oldClassName.replace(string, '');
-                }
+                // let __oldClassName = val.className;
+                // if (__oldClassName.match(val)) {
+                //     val.className = __oldClassName.replace(string, '');
+                // }
+                val.classList.remove(string);                
             } catch (e) {}
         });
         return this;
@@ -166,7 +168,7 @@ class Doom {
     // before和after获得前面或后面节点时有bug。获得到了文本节点而不是元素节点。
     after (element) {
         if (element === undefined) {
-            return this[0].nextSibling;
+            return this[0].nextElementSibling;// ceshi
         } else {
             if (element.length >= 1) {
                 element = element[0];
@@ -179,7 +181,7 @@ class Doom {
     }
     before (element) {
         if (element === undefined) {
-            return this[0].previousSibling;
+            return this[0].previousElementSibling;//ceshi
         } else {
             if (element.length >= 1) {
                 element = element[0];
@@ -191,10 +193,10 @@ class Doom {
         }
     }
     first () {
-        return this[0].firstChild;
+        return this[0].firstElementChild;
     }
     last () {
-        return this[0].lastChild;
+        return this[0].lastElementChild;
     }
     root () {
         return this[0].ownerDocument;
@@ -224,6 +226,23 @@ class Doom {
         }
     }
 
+    style (key, value) {
+        if (typeof key === 'string' && value !== undefined) {
+            this.all(val => {
+                val.style[key] = value;
+            });
+        } else if (typeof key === 'string' && value === undefined){
+            return this[0] ? this[0].style[key] : false;
+        } else if (typeof key === 'object') {
+            this.all(val => {
+                for (let x in key) {
+                    val.style[x] = key[x];
+                }
+            })
+        }
+        
+        return this;
+    }
     css (key, value) {
         if (typeof key === 'string' && value !== undefined) {
             this.all(val => {
@@ -240,6 +259,13 @@ class Doom {
         }
         
         return this;
+    }
+    getCSSValue (key) { // 得到计算后的css数值
+        if (key) {
+            return document.defaultView.getComputedStyle(this[0])[key];
+        } else {
+            return document.defaultView.getComputedStyle(this[0]);
+        }
     }
     
 }
