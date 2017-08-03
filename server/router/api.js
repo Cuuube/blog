@@ -3,6 +3,7 @@ module.exports = new (require('../controller.js'))({
     dependencies: {
         ac: require('../db/articleDbController.js'),
         lc: require('../db/loginDbController.js'),
+        Lock: require('../utils/Lock')
     }
 })
 .bind((router, dependencies) => {
@@ -51,20 +52,6 @@ module.exports = new (require('../controller.js'))({
         }
     })
 
-    router.post('/login', (req, res) => {
-        const lc = dependencies['lc'];
-        // const pagePath = path.join('../templates', 'article', 'login.html');
-        const body = req.body;
-        const data = body.data;  //要是个字符串，然后服务器解码查询该字符串
-        //解码
-
-
-        //数据库查询，有的话返回身份cookie，没有的话返回认证失败json
-        
-        // res.cookie('isManage', 1, {maxAge: 60 * 1000});
-        res.send('Not Preperd');
-    })
-
     router.delete('/article', (req, res) => {
         // 上传新文章, 需要权限控制
         const ac = dependencies['ac'];        
@@ -85,11 +72,27 @@ module.exports = new (require('../controller.js'))({
         res.send({msg: 'not open', code: 0});
     })
 
-    // router.get('/:article_name', (req, res) => {
-    //     let article_name = req.params.article_name;
-    //     res.send(article_name);
-    // })
-
+    router.post('/login', (req, res) => {
+        const lc = dependencies['lc'];
+        const lock = new (dependencies['Lock'])();
+        // const pagePath = path.join('../templates', 'article', 'login.html');
+        const body = req.body;
+        const data = body.data;  //要是个字符串，然后服务器解码查询该字符串
+        //解码
+        const _data = lock.lock(data);
+        //数据库查询，有的话返回身份cookie，没有的话返回认证失败json
+        lc.find({password: _data}).then(resp => {
+            // success
+            res.cookie('isManage', 1, {maxAge: 60 * 1000});
+        }).catch(e => {
+            res.send(JSON.stringify({
+                code: 0,
+                msg: 'not exist.'
+            }))
+        });
+        // res.cookie('isManage', 1, {maxAge: 60 * 1000});
+    })
+    
     router.get('/test', (req, res) => {
         let result = `You are requesting "${req.baseUrl}", the full-url is "${req.originalUrl}".
 Accroding parsed, json of require object is ${JSON.stringify(req.query) } .`
