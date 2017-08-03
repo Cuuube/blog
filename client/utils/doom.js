@@ -146,9 +146,6 @@ class Doom {
     }
 
     append (element) {
-        // if (element instanceof Doom || (element instanceof NodeList)) {
-        //     element = element[0];
-        // }
         if (element.length > 1) {
             element = element[0];
         }
@@ -158,9 +155,6 @@ class Doom {
         return this;
     }
     prepend (element) {
-        // if (element instanceof Doom || (element instanceof NodeList)) {
-        //     element = element[0];
-        // }
         if (element.length >= 1) {
             element = element[0];
         }
@@ -226,7 +220,26 @@ class Doom {
             this.all(val => {
                 val.dataset[dataName] = value;
             })
+            return this;
         }
+    }
+
+    css (key, value) {
+        if (typeof key === 'string' && value !== undefined) {
+            this.all(val => {
+                val.style[key] = value;
+            });
+        } else if (typeof key === 'string' && value === undefined){
+            return this[0] ? this[0].style[key] : false;
+        } else if (typeof key === 'object') {
+            this.all(val => {
+                for (let x in key) {
+                    val.style[x] = key[x];
+                }
+            })
+        }
+        
+        return this;
     }
     
 }
