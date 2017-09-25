@@ -3,28 +3,28 @@ class Page extends require('./MainPage') {
         super();
     }
     ready () {
-        let $ = this.$;
+        let D = this.D;
         let bird = this.bird;
 
-        $('.login').on('click', () => {
+        D('.login').on('click', () => {
             bird.get('/api/test', {a:1,b:2}).then(res => console.log(res));
             bird.post('/api/test', {a:1,b:2}).then(res => console.log(res));
         })
-        $('.write-area button[type="button"]').on('click', (e) => {
+        D('.write-area button[type="button"]').on('click', (e) => {
             this.submit();
         })
     }
     submit () {
-        let $ = this.$;
+        let D = this.D;
         let bird = this.bird;
 
         const data = {
-            file_name: $('input[name="file_name"]').val() || this.getRandomNumber(),
-            title: $('input[name="title"]').val(),
-            author: $('input[name="author"]').val() || '铜方块',
-            keywords: this.parseTags($('input[name="keywords"]').val()) || [],
-            description: $('input[name="description"]').val() || 'no description',
-            content: $('textarea[name="content"]').val()
+            file_name: D('input[name="file_name"]').val() || this.getRandomNumber(),
+            title: D('input[name="title"]').val(),
+            author: D('input[name="author"]').val() || '铜方块',
+            keywords: this.parseTags(D('input[name="keywords"]').val()) || [],
+            description: D('input[name="description"]').val() || 'no description',
+            content: D('textarea[name="content"]').val()
         };
         if (!this.check(data)) {
             alert('请至少填写标题和内容！')
@@ -51,7 +51,7 @@ class Page extends require('./MainPage') {
     }
     parseTags(str) {
         let arr = str.split(',')
-            .map((val) => val.replace(/^\s+|\s+$/g, ''))
+            .map((val) => val.replace(/^\s+|\s+D/g, ''))
             .filter((val) => (val !== '') ? true : false);
         if (arr[0] === '') {
             return [];

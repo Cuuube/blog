@@ -5,27 +5,27 @@ class Page extends require('./MainPage') {
     }
 
     ready () {
-        let $ = this.$;
+        let D = this.D;
         let self = this;
 
         function hoverHandle(e) {
-            self.pushArray($(e.target).attr('number'));
+            self.pushArray(D(e.target).attr('number'));
         }
 
-        $(document).on('dragend', (e) => {
+        D(document).on('dragend', (e) => {
             e.preventDefault();
         })
-        $(document).on('drop', (e) => {
+        D(document).on('drop', (e) => {
             e.preventDefault();
         })
 
-        $('.login-point').on('mousedown', (e) => {
-            this.pushArray($(e.target).attr('number'));
-            $('.login-point').on('mouseenter', hoverHandle);
+        D('.login-point').on('mousedown', (e) => {
+            this.pushArray(D(e.target).attr('number'));
+            D('.login-point').on('mouseenter', hoverHandle);
         })
 
-        $(document).on('mouseup', () => {
-            $('.login-point').off('mouseenter', hoverHandle);
+        D(document).on('mouseup', () => {
+            D('.login-point').off('mouseenter', hoverHandle);
             console.log(this.getArray());
             this.clearArray();
         })

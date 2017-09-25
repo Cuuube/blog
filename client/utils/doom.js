@@ -58,27 +58,24 @@ class Doom {
         if (!str || typeof str !== 'string') {
             console.log(new Error('Must have one param or invalid param.'))
         } else {
-            window[str] = (sth) => {
-                if (typeof sth === 'string' && sth[0] === '<') {
-                    // 需求： 输入一段html，输出html元素的Doom对象
-                    // let tag = sth.match(/^<[^<>\s&'"]+>/)[0].replace('<', '').replace('>', '');
-                    //let newEle = document.createElement(tag);
-                    //newEle.outerHTML = sth;
-                    //return new Doom(document.createElement(sth));
-                    // 正则不会，曲线救国：
-                    let ele = document.createElement('div');
-                    ele.innerHTML = sth;
-                    ele = ele.childNodes[0];
-                    return new Doom(ele);
-                } else {
-                    return new Doom(sth);
-                }
-            }
-            return str;
+            window[str] = Doom.create;
         }
     }
     static create (sth) {
-        return new Doom(sth);
+        if (typeof sth === 'string' && sth[0] === '<') {
+            // 需求： 输入一段html，输出html元素的Doom对象
+            // let tag = sth.match(/^<[^<>\s&'"]+>/)[0].replace('<', '').replace('>', '');
+            //let newEle = document.createElement(tag);
+            //newEle.outerHTML = sth;
+            //return new Doom(document.createElement(sth));
+            // 正则不会，曲线救国：
+            let ele = document.createElement('div');
+            ele.innerHTML = sth;
+            ele = ele.childNodes[0];
+            return new Doom(ele);
+        } else {
+            return new Doom(sth);
+        }
     }
 
 // 遍历方法
@@ -343,5 +340,6 @@ class Doom {
     
 }
 
-// module.exports = sth => new Doom(sth);
 Doom.label('D');
+
+module.exports = sth => Doom.create(sth);

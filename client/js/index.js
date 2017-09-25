@@ -3,12 +3,13 @@ class Page extends require('./MainPage') {
         super();
     }
     ready () {
-        let $ = this.$;
+        let D = this.D;
         let bird = this.bird;
 
-        $('.login').on('click', () => {
+        D('.login').on('click', () => {
             location.href = '/login';
         })
+        console.log(D)
     }
 }
 

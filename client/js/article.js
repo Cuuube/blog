@@ -3,9 +3,9 @@ class Page extends require('./MainPage') {
         super();
     }
     ready () {
-        let $ = this.$;
+        let D = this.D;
         
-        $('.to-top').on('click', () => {
+        D('.to-top').on('click', () => {
             window.scroll(0,0);
         })
     }
