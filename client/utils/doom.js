@@ -110,27 +110,39 @@ class Doom {
             this.all((val) => val.innerHTML = string);
             return this;
         } else {
-            return this[0].innerHTML;
+            let _html = '';
+            this.all(val => {
+                _html = _html.concat(val.innerHTML);
+            })
+            return _html;
         }
     }
+
     text (string) {
         if (string !== undefined) {
             this.all((val) => val.innerText = string);
             return this;
         } else {
-            return this[0].innerText;
+            let _text = '';
+            this.all(val => {
+                _text = _text.concat(val.innerText);
+            })
+            return _text;
         }
     }
+
     val(string) {
         if (string !== undefined) {
             this.all((val) => {
-                try {
-                    val.value = string;
-                } catch (e) {}
+                val.value = string;
             });
             return this;
         } else {
-            return this[0].value;
+            let _value = '';
+            this.all(val => {
+                _value = _value.concat(val.value !== undefined ? val.value : '');
+            })
+            return _value;
         }
               
     }
@@ -139,19 +151,17 @@ class Doom {
         this[0].innerHTML = '';
         return this;
     }
+
     addClass (string) {
         this.all((val) => {
-            try {
-                val.classList.add(string);
-            } catch (e) {}
+            val.classList.add(string);
         });
         return this;
     }
+
     removeClass (string) {
         this.all((val) => {
-            try {
-                val.classList.remove(string);  
-            } catch (e) {}
+            val.classList.remove(string);
         });
         return this;
     }
@@ -166,19 +176,18 @@ class Doom {
     }
 
     attr (attrName, attrValue) {
-        try {
-            if (attrValue !== undefined) {
-                this[0].setAttribute(attrName, attrValue);
-                return this;
-            } else {
-                return this[0].getAttribute(attrName);
-            }
-        } catch (e) {}
+        if (attrValue !== undefined) {
+            this.all(val => {
+                val.setAttribute(attrName, attrValue);
+            })
+            return this;
+        } else {
+            return this[0].getAttribute(attrName);
+        }
     }
+
     removeAttr (attrName) {
-        try {
-            this[0].removeAttribute(attrName);
-        } catch (e) {}
+        this[0].removeAttribute(attrName);
         return this;
     }
 
@@ -188,12 +197,14 @@ class Doom {
         })
         return this;
     }
+
     off (eventName, callback) {
         this.all(val => {
             val.removeEventListener(eventName, callback);
         })
         return this;
     }
+
     offset (where) {
         let _where = where[0].toUpperCase() + where.substr(1);
         return this[0]['offset' + _where]
