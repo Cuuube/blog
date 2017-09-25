@@ -19,6 +19,9 @@
 
 class Doom {
     constructor (selector) {
+        if (selector === null || selector === undefined) {
+            return ;
+        }
         if (selector instanceof Document) {
             this[0] = document;
             this.length = 1;
@@ -49,12 +52,59 @@ class Doom {
         }
         
     }
-    all (callback) {
-        for (let i = 0; i < this.length; i++) {
-            callback(this[i]);
+
+// 设置
+    static label (str) { //设置生成对象的函数
+        if (!str || typeof str !== 'string') {
+            console.log(new Error('Must have one param or invalid param.'))
+        } else {
+            window[str] = (sth) => {
+                if (typeof sth === 'string' && sth[0] === '<') {
+                    // 需求： 输入一段html，输出html元素的Doom对象
+                    // let tag = sth.match(/^<[^<>\s&'"]+>/)[0].replace('<', '').replace('>', '');
+                    //let newEle = document.createElement(tag);
+                    //newEle.outerHTML = sth;
+                    //return new Doom(document.createElement(sth));
+                    // 正则不会，曲线救国：
+                    let ele = document.createElement('div');
+                    ele.innerHTML = sth;
+                    ele = ele.childNodes[0];
+                    return new Doom(ele);
+                } else {
+                    return new Doom(sth);
+                }
+            }
+            return str;
         }
     }
+    static create (sth) {
+        return new Doom(sth);
+    }
 
+// 遍历方法
+    all (callback = val => val) {   // 参数为dom元素，输出为this
+        for (let i = 0; i < this.length; i++) {
+            callback(this[i], i);
+        }
+        return this;
+    }
+
+    filter (fn = () => true) { // 参数为dom元素，输出为Doom对象
+        const resultArray = [];
+        for (let i = 0; i < this.length; i++) {
+            let result = fn(this[i], i);
+            !!result ? resultArray.push(this[i]) : false;
+        }
+        return new Doom(resultArray);
+    }
+
+    // 输出数组
+    map (fn = (val) => val) { // 参数为dom元素，输出为dom元素的数组
+        const array = Array.from(this);
+        return array.map(fn);
+    }
+
+// 节点dom操作
     html (string) {
         if (string !== undefined) {
             this.all((val) => val.innerHTML = string);
@@ -85,12 +135,14 @@ class Doom {
               
     }
 
+    empty () {
+        this[0].innerHTML = '';
+        return this;
+    }
     addClass (string) {
         this.all((val) => {
             try {
                 val.classList.add(string);
-                // let __oldClassName = val.className;
-                // val.className = __oldClassName + ' ' + string;
             } catch (e) {}
         });
         return this;
@@ -98,11 +150,7 @@ class Doom {
     removeClass (string) {
         this.all((val) => {
             try {
-                // let __oldClassName = val.className;
-                // if (__oldClassName.match(val)) {
-                //     val.className = __oldClassName.replace(string, '');
-                // }
-                val.classList.remove(string);                
+                val.classList.remove(string);  
             } catch (e) {}
         });
         return this;
@@ -146,73 +194,101 @@ class Doom {
         })
         return this;
     }
+    offset (where) {
+        let _where = where[0].toUpperCase() + where.substr(1);
+        return this[0]['offset' + _where]
+    }
+    
+    scroll (where) {
+        let _where = where[0].toUpperCase() + where.substr(1);
+        return this[0]['scroll' + _where]
+    }
 
-    append (element) {
-        if (element.length > 1) {
-            element = element[0];
+//  节点dom遍历
+    append (element) { // 尾部插入
+        if (element.length > 0) {
+            for (let i = 0; i < element.length; i++) {
+                this.all(val => {
+                    val.appendChild(element[i]);
+                })
+            }
+        } else {
+            this.all(val => {
+                val.appendChild(element);
+            })
         }
-        this.all(val => {
-            val.appendChild(element);
-        })
+        
         return this;
     }
-    prepend (element) {
-        if (element.length >= 1) {
-            element = element[0];
+    prepend (element) { // 头部插入
+        if (element.length > 0) {
+            for (let i = 0; i < element.length; i++) {
+                this.all(val => {
+                    val.insertBefore(element[i], val.firstChild);
+                })
+            }
+        } else {
+            this.all(val => {
+                val.insertBefore(element, val.firstChild);
+            })
         }
-        this.all(val => {
-            val.insertBefore(element, val.firstChild);
-        })
         return this;
     }
     // before和after获得前面或后面节点时有bug。获得到了文本节点而不是元素节点。
-    after (element) {
+    after (element) { // 身后插入
         if (element === undefined) {
-            return this[0].nextElementSibling;// ceshi
+            return new Doom(this[0].nextElementSibling);// ceshi
         } else {
-            if (element.length >= 1) {
-                element = element[0];
+            if (element.length > 0) {
+                for (let i = 0; i < element.length; i++) {
+                    this.all(val => {
+                        val.parentNode.appendChild(element[i]);
+                    })
+                }
+            } else {
+                this.all(val => {
+                    val.parentNode.appendChild(element);
+                })
             }
-            this.all(val => {
-                val.parentNode.insertBefore(element, val.nextSibling);
-            })
         }
         return this;
     }
-    before (element) {
+    before (element) { // 前面插入
         if (element === undefined) {
-            return this[0].previousElementSibling;//ceshi
+            return new Doom(this[0].previousElementSibling);//ceshi
         } else {
-            if (element.length >= 1) {
-                element = element[0];
+            if (element.length > 0) {
+                for (let i = 0; i < element.length; i++) {
+                    this.all(val => {
+                        val.parentNode.insertBefore(element[i], val);
+                    })
+                }
+            } else {
+                this.all(val => {
+                    val.parentNode.insertBefore(element, val);
+                })
             }
-            this.all(val => {
-                val.parentNode.insertBefore(element, val);
-            })
+            
             return this;
         }
     }
     first () {
-        return this[0].firstElementChild;
+        return new Doom(this[0].firstElementChild);
     }
     last () {
-        return this[0].lastElementChild;
+        return new Doom(this[0].lastElementChild);
     }
     root () {
-        return this[0].ownerDocument;
+        return new Doom(this[0].ownerDocument);
     }
     parent () {
-        return this[0].parentNode;
+        return new Doom(this[0].parentNode);
     }
     children() {
-        return this[0].children;
+        return new Doom(this[0].children);
     }
     
-    empty () {
-        this[0].innerHTML = '';
-        return this;
-    }
-
+// data属性操作
     data (dataName, value) {
         if (!dataName) {
             return this[0].dataset;
@@ -226,7 +302,8 @@ class Doom {
         }
     }
 
-    style (key, value) {
+// 样式操作
+    style (key, value) { // 得到内联style中的值，可设置
         if (typeof key === 'string' && value !== undefined) {
             this.all(val => {
                 val.style[key] = value;
@@ -243,31 +320,17 @@ class Doom {
         
         return this;
     }
-    css (key, value) {
-        if (typeof key === 'string' && value !== undefined) {
-            this.all(val => {
-                val.style[key] = value;
-            });
-        } else if (typeof key === 'string' && value === undefined){
-            return this[0] ? this[0].style[key] : false;
-        } else if (typeof key === 'object') {
-            this.all(val => {
-                for (let x in key) {
-                    val.style[x] = key[x];
-                }
-            })
-        }
-        
-        return this;
-    }
-    getCSSValue (key) { // 得到计算后的css数值
+    css (key, value) { // 得到计算后的css数值，只读
+        value !== undefined ? console.log(new Error('css is readonly')) : false;
         if (key) {
             return document.defaultView.getComputedStyle(this[0])[key];
         } else {
             return document.defaultView.getComputedStyle(this[0]);
         }
     }
+
     
 }
 
-module.exports = sth => new Doom(sth);
+// module.exports = sth => new Doom(sth);
+Doom.label('D');
