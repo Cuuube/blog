@@ -19,38 +19,37 @@
 
 class Doom {
     constructor (selector) {
-        if (selector === null || selector === undefined) {
-            return ;
-        }
-        if (selector instanceof Document) {
-            this[0] = document;
-            this.length = 1;
-        } else if (typeof selector === 'function') {
-            window.onload = selector;
-        } else  if (typeof selector === 'string') {
-            var __ele = window.document.querySelectorAll(selector);
-            // if (__ele.length === 0) {
-            //     __ele = __ele[0];
-            // }
-            this.length = __ele.length;
-            for (let i = 0; i < this.length; i++) {
-                this[i] = __ele[i];
-            }
-        } else if (selector instanceof Element){
-            this[0] = selector;
-            this.length = 1;
-        } else if (selector.length > 0 && selector[0] instanceof Element) {
-            for (let x in selector) {
-                if (!isNaN(parseInt(x))) {
-                    this[x] = selector[x];
+        switch (true) {
+            case (selector === null || selector === undefined):
+                return;
+            case (typeof selector === 'string'):
+                let _ele = window.document.querySelectorAll(selector);
+                this.length = _ele.length;
+                for (let i = 0; i < this.length; i++) {
+                    this[i] = _ele[i];
                 }
-            }
-            this.length = selector.length;
-        } else {
-            console.warn('Unexcept type!');
-            this.length = 0;
+                break;
+            case (selector instanceof Document):
+                this[0] = document;
+                this.length = 1;
+                break;
+            case (selector instanceof Element):
+                this[0] = selector;
+                this.length = 1;
+                break;
+            case (typeof selector === 'function'):
+                window.onload = selector;
+                break;
+            case (selector.length > 0 && selector[0] instanceof Element):
+                let _arr = Array.from(selector);
+                _arr.forEach((value, index) => {
+                    this[index] = value;
+                })
+                this.length = _arr.length;
+                break;
+            default:
+                this.length = 0;
         }
-        
     }
 
 // 设置
@@ -80,25 +79,20 @@ class Doom {
 
 // 遍历方法
     all (callback = val => val) {   // 参数为dom元素，输出为this
-        for (let i = 0; i < this.length; i++) {
-            callback(this[i], i);
-        }
+        Array.prototype.forEach.call(this, (value, index) => {
+            callback(value, index);
+        });
         return this;
     }
 
     filter (fn = () => true) { // 参数为dom元素，输出为Doom对象
-        const resultArray = [];
-        for (let i = 0; i < this.length; i++) {
-            let result = fn(this[i], i);
-            !!result ? resultArray.push(this[i]) : false;
-        }
+        const resultArray = Array.prototype.filter.call(this, fn);
         return new Doom(resultArray);
     }
 
     // 输出数组
     map (fn = (val) => val) { // 参数为dom元素，输出为dom元素的数组
-        const array = Array.from(this);
-        return array.map(fn);
+        return Array.prototype.map.call(this, fn);
     }
 
 // 节点dom操作
@@ -215,11 +209,11 @@ class Doom {
 //  节点dom遍历
     append (element) { // 尾部插入
         if (element.length > 0) {
-            for (let i = 0; i < element.length; i++) {
+            Array.prototype.forEach.call(element, value => {
                 this.all(val => {
-                    val.appendChild(element[i]);
+                    val.appendChild(value);
                 })
-            }
+            })
         } else {
             this.all(val => {
                 val.appendChild(element);
@@ -230,11 +224,11 @@ class Doom {
     }
     prepend (element) { // 头部插入
         if (element.length > 0) {
-            for (let i = 0; i < element.length; i++) {
+            Array.prototype.forEach.call(element, value => {
                 this.all(val => {
-                    val.insertBefore(element[i], val.firstChild);
+                    val.insertBefore(value, val.firstChild);
                 })
-            }
+            })
         } else {
             this.all(val => {
                 val.insertBefore(element, val.firstChild);
@@ -248,11 +242,11 @@ class Doom {
             return new Doom(this[0].nextElementSibling);// ceshi
         } else {
             if (element.length > 0) {
-                for (let i = 0; i < element.length; i++) {
+                Array.prototype.forEach.call(element, value => {
                     this.all(val => {
-                        val.parentNode.appendChild(element[i]);
+                        val.parentNode.appendChild(value);
                     })
-                }
+                })
             } else {
                 this.all(val => {
                     val.parentNode.appendChild(element);
@@ -266,11 +260,11 @@ class Doom {
             return new Doom(this[0].previousElementSibling);//ceshi
         } else {
             if (element.length > 0) {
-                for (let i = 0; i < element.length; i++) {
+                Array.prototype.forEach.call(element, value => {
                     this.all(val => {
-                        val.parentNode.insertBefore(element[i], val);
+                        val.parentNode.insertBefore(value, val);
                     })
-                }
+                })
             } else {
                 this.all(val => {
                     val.parentNode.insertBefore(element, val);
