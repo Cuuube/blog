@@ -71,6 +71,7 @@ module.exports = new ArticleRoute ({
                 res.redirect('/error/404');
             } else {
                 resp.data[0].content = md(resp.data[0].content);
+                resp.data[0].created_time = new Date(resp.data[0].created_time).toLocaleString();
                 res.render(pagePath, resp.data[0]);
             }
         }).catch(err => {
