@@ -6,10 +6,10 @@ class Page extends require('./MainPage') {
         let D = this.D;
         let bird = this.bird;
 
-        D('.login').on('click', () => {
-            bird.get('/api/test', {a:1,b:2}).then(res => console.log(res));
-            bird.post('/api/test', {a:1,b:2}).then(res => console.log(res));
-        })
+        // D('.login').on('click', () => {
+        //     bird.get('/api/test', {a:1,b:2}).then(res => console.log(res));
+        //     bird.post('/api/test', {a:1,b:2}).then(res => console.log(res));
+        // })
         D('.write-area button[type="button"]').on('click', (e) => {
             this.submit();
         })
@@ -23,14 +23,19 @@ class Page extends require('./MainPage') {
             title: D('input[name="title"]').val(),
             author: D('input[name="author"]').val() || '铜方块',
             keywords: this.parseTags(D('input[name="keywords"]').val()) || [],
-            description: D('input[name="description"]').val() || 'no description',
-            content: D('textarea[name="content"]').val()
+            description: D('input[name="description"]').val() || '无',
+            content: D('textarea[name="content"]').val(),
         };
+        let created_time = D('input[name="created_time"]').val();
+        let updated_time = D('input[name="updated_time"]').val();
+        data.created_time = created_time ? new Date(created_time) : new Date();
+        data.updated_time = updated_time ? new Date(updated_time) : new Date();
+
         if (!this.check(data)) {
             alert('请至少填写标题和内容！')
             return false;
         };
-        // console.log(data);
+        
         bird.post('/api/article', data).then((res) => {
             if (res.code === 0) {
                 alert(res.msg);

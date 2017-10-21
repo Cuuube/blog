@@ -20,8 +20,8 @@ class ArticleDbController extends require('./db.js') {
             author: obj.author,
             keywords: obj.keywords,
             description: obj.description,
-            created_time: this.now(),
-            updated_time: this.now(),
+            created_time: obj.created_time || this.now(),
+            updated_time: obj.updated_time || this.now(),
             content: obj.content
         });
         return new Promise((resolve, reject) => {

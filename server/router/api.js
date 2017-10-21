@@ -1,3 +1,4 @@
+const manageKey = require('../config.js').manageKey;
 module.exports = new (require('../controller.js'))({
     url: '/api',
     dependencies: {
@@ -26,7 +27,7 @@ module.exports = new (require('../controller.js'))({
             res.status(200).send({code: 0, msg: '文章格式错误，提交失败!'});
             return false;
         }
-        if (true) {
+        if (req.cookies.isManage === manageKey) {
             ac.find({file_name: data.file_name}).then((res_data) => {
                 if (res_data.length !== 0) {
                     return new Promise(() => {
