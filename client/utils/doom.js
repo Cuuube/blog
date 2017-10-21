@@ -29,10 +29,8 @@ class Doom {
                     this[i] = _ele[i];
                 }
                 break;
+            case (selector instanceof Window):
             case (selector instanceof Document):
-                this[0] = document;
-                this.length = 1;
-                break;
             case (selector instanceof Element):
                 this[0] = selector;
                 this.length = 1;
@@ -201,9 +199,34 @@ class Doom {
         return this[0]['offset' + _where]
     }
     
-    scroll (where) {
-        let _where = where[0].toUpperCase() + where.substr(1);
-        return this[0]['scroll' + _where]
+    scroll (where, value) {
+        if (this[0] instanceof Window) {
+            if (value === undefined) {
+                if (where === 'left' || where === 'X' || where === 'x') {
+                    return this[0].scrollX;
+                } else {
+                    return this[0].scrollY;
+                }
+            } else {
+                if (where === 'left' || where === 'X'|| where === 'x') {
+                    this[0].scroll(value, 0);
+                    return this;
+                } else {
+                    this[0].scroll(0, value);
+                    return this;
+                }
+            }
+        } else {
+            if (value === undefined) {
+                let _where = where[0].toUpperCase() + where.substr(1);
+                return this[0]['scroll' + _where];
+            } else {
+                let _where = where[0].toUpperCase() + where.substr(1);
+                this[0]['scroll' + _where] = value;
+                return this;
+            }
+        }
+        
     }
 
 //  节点dom遍历

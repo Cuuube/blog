@@ -6,7 +6,7 @@ class Page extends require('./MainPage') {
         let D = this.D;
         
         D('.to-top').on('click', () => {
-            window.scroll(0,0);
+            window.scroll(0, 0);
         })
     }
 }
