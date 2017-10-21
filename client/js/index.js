@@ -9,7 +9,6 @@ class Page extends require('./MainPage') {
         D('.login').on('click', () => {
             location.href = '/login';
         })
-        console.log(D)
     }
 }
 

@@ -1,10 +1,4 @@
-const crypto = require('crypto');
-
 class Lock {
-    constructor () {
-        // this.
-    }
-
     encryption (string) {
         return string.split('')
             .map(val => val.charCodeAt() + 1)

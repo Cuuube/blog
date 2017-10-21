@@ -3,7 +3,8 @@ module.exports = new (require('../controller.js'))({
     dependencies: {
         ac: require('../db/articleDbController.js'),
         lc: require('../db/loginDbController.js'),
-        Lock: require('../utils/Lock')
+        lock: require('../utils/simpleLock'),
+        pw: require('process').env['PW']
     }
 })
 .bind((router, dependencies) => {
@@ -74,22 +75,33 @@ module.exports = new (require('../controller.js'))({
 
     router.post('/login', (req, res) => {
         const lc = dependencies['lc'];
-        const lock = new (dependencies['Lock'])();
+        const lock = dependencies['lock'];
+        /**
+         * 登陆检测
+         * 如果密码相同，发送已登陆的cookie
+         * 如果不相同，返回msg
+         */
         // const pagePath = path.join('../templates', 'article', 'login.html');
-        const body = req.body;
-        const data = body.data;  //要是个字符串，然后服务器解码查询该字符串
+        let body = req.body;
+        let data = body.join('');  //要是个字符串，然后服务器解码查询该字符串
         //解码
-        const _data = lock.lock(data);
-        //数据库查询，有的话返回身份cookie，没有的话返回认证失败json
-        lc.find({password: _data}).then(resp => {
-            // success
-            res.cookie('isManage', 1, {maxAge: 60 * 1000});
-        }).catch(e => {
-            res.send(JSON.stringify({
-                code: 0,
-                msg: 'not exist.'
-            }))
-        });
+        let _data = lock.lock(data);
+        //数据库查询，有的话返回身份cookie，没有的话返回认证失败json  // 密码不放到数据库里了，放到环境变量里
+        // lc.find({password: _data})
+        // .then(resp => {
+        //     // success
+        //     res.cookie('isManage', 1, {maxAge: 60 * 1000});
+        // }).catch(e => {
+        //     res.send(JSON.stringify({
+        //         code: 0,
+        //         msg: 'not exist.'
+        //     }))
+        // });
+        if (_data === dependencies['pw']) {
+            res.send({code: 1});
+        } else {
+            res.send({code: 0});
+        }
         // res.cookie('isManage', 1, {maxAge: 60 * 1000});
     })
     

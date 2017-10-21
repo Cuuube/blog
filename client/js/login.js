@@ -26,7 +26,11 @@ class Page extends require('./MainPage') {
 
         D(document).on('mouseup', () => {
             D('.login-point').off('mouseenter', hoverHandle);
-            console.log(this.getArray());
+            let pw = this.getArray();
+            if (pw.length === 0) {
+                return ;
+            }
+            this.sendData(pw);
             this.clearArray();
         })
     }
@@ -46,7 +50,12 @@ class Page extends require('./MainPage') {
     sendData (data) {
         // doSth
         this.bird.post('/login', data).then(res => {
-            
+            if (res && res.code === 1) {
+                alert(res.msg);
+                window.location.href = '/article';
+            } else {
+                alert(res.msg);
+            }
         }).catch(e => {});
     }
 }

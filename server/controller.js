@@ -9,4 +9,8 @@ module.exports = class Router {
         callback(this.router, this.dependencies);
         return this;
     }
+    // 没用
+    judgeManage (req) {
+        return !!req.cookies.isManage
+    }
 }

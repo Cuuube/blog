@@ -1,10 +1,8 @@
+const manageKey = require('../config.js').manageKey;
 const Route = require('../controller.js');
 class ArticleRoute extends Route {
     constructor (config) {
         super(config);
-    }
-    judgeManage (req) {
-        return !!req.cookies.isManage
     }
 }
 
@@ -18,13 +16,12 @@ module.exports = new ArticleRoute ({
     }
 })
 .bind((router, dependencies) => {
-    // const self = this;
     router.get('/', (req, res) => {
         const path = dependencies['path'];
         const bird = dependencies['bird'];
-        const fomateDate = dependencies['fomateDate'];        
+        const fomateDate = dependencies['fomateDate'];
         const pagePath = path.join('../templates', 'article', 'index.html');
-        // const isManage = self.judgeManage(req);
+        const isManage = req.cookies.isManage === manageKey;
         
         bird.get('/api/article').then((resp) => {
             if (resp.data.length === 0) {
@@ -35,7 +32,7 @@ module.exports = new ArticleRoute ({
                 })
                 res.render(pagePath, {
                     articleList: resp.data,
-                    isManage: !!req.cookies.isManage
+                    isManage: isManage
                 });
             }
         }).catch(err => {
@@ -45,13 +42,18 @@ module.exports = new ArticleRoute ({
 
     router.get('/write', (req, res) => {
         const path = dependencies['path'];        
-        const pagePath = path.join('../templates', 'article', 'write.html')
-        res.render(pagePath);
+        const pagePath = path.join('../templates', 'article', 'write.html');
+        if (req.cookies.isManage === manageKey) {
+            res.render(pagePath);
+        } else {
+            res.redirect('/error/404')
+        }
+        
     })
 
     // 不安全的请求接口，请使用 delete /api/article
     router.get('/delete/:id', (req, res) => {
-        const bird = dependencies['bird'];        
+        const bird = dependencies['bird'];
         bird.delete('/api/article', {_id: id}).then((resp) => {
             res.send('success');
         }).catch(err => {
@@ -70,6 +72,7 @@ module.exports = new ArticleRoute ({
             if (resp.data.length === 0) {
                 res.redirect('/error/404');
             } else {
+                // 查询结果返回一个数组，我们只需要第一个 
                 resp.data[0].content = md(resp.data[0].content);
                 resp.data[0].created_time = new Date(resp.data[0].created_time).toLocaleString();
                 res.render(pagePath, resp.data[0]);
