@@ -1,24 +1,68 @@
-module.exports = class CreatServer {
-    constructor (config) {
+const express = require('express');
+const bodyParser = require('body-parser');
+const cookieParser = require('cookie-parser');
+const path = require('path');
+const nunjucks = require('nunjucks');
+
+const config = require('./config.js');
+const indexRoute = require('./router/index.js');
+const loginRoute = require('./router/login.js');
+const articleRoute = require('./router/article');
+const apiRoute = require('./router/api.js');
+const errorRoute = require('./router/error.js');
+
+
+
+module.exports = class Server {
+    constructor () {
         this.config = config;
-        this.express = require('express');
-        this.app = this.express();
+        this.app = express();
+
+        this.init();
     }
+
+    init () {
+        
+        
+        return this.setStatic('./static')
+            .useNunjucks()
+            .useMiddleware(bodyParser.json())
+            .useMiddleware(bodyParser.urlencoded({ extended: false }))
+            .useMiddleware(cookieParser())
+            .setRoute(this.app)
+            .addError()
+            .run(this.config.port);
+    }
+
     setStatic (path) {
-        this.app.use(this.express.static(path));
+        this.app.use(express.static(path));
         return this;
     }
-    setRoute (route) {
-        let app = this.app;
-        app.use(route.url, route.router);
+
+    setRoute (router) {
+        let routes = indexRoute.concat(loginRoute)
+                               .concat(articleRoute)
+                               .concat(apiRoute)
+                               .concat(errorRoute);
+        routes.map(Route => new Route())
+              .map(route => {
+                  router[route.type](route.url, route.execute)
+              });
+        
         return this;
     }
+
     useMiddleware (middleware) {
         this.app.use(middleware);
         return this;
     }
-    doOther (callback) {
-        callback(this.app);
+
+    useNunjucks () {
+        nunjucks.configure('./server/templates', {
+            autoescape: false,
+            express: this.app
+        });
+        this.app.set('views engine', 'html');
         return this;
     }
     addError () {
@@ -40,6 +84,7 @@ module.exports = class CreatServer {
         });
         return this;
     }
+
     run (port) {
         this.app.listen(port,(err) => {
             if (err) throw new Error('Server error');
