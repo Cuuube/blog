@@ -1,19 +1,53 @@
-const manageKey = require('../config.js').manageKey;
 const Route = require('../controller.js');
-class ArticleRoute extends Route {
-    constructor (config) {
-        super(config);
+const md = require('../utils/markdown.js');
+
+class BaseRouter {
+    constructor () {
+        // this.
     }
 }
 
+class ArticleRoute extends Route {
+    constructor () {
+        super();
+        this.url = '/article';
+        this.md = md;
+        this.path = require('path');
+        
+        this.init();
+    }
+    init () {
+        this.get(new SubRoute123());
+
+    }
+    
+    
+}
+
+class SubRoute123 extends SubRoute{
+    constructor () {
+        this.url = '123';
+    }
+    exec () {
+        return (req, res) => {
+            res.send('123');
+        }
+    }
+}
+
+
+
+
+
+
+
+
 module.exports = new ArticleRoute ({
     url: '/article',
-    dependencies: {
         md: require('../utils/markdown.js'),
         path: require('path'),
         bird: new (require('../utils/bird.js'))(require('../config.js').origin),
         fomateDate: require('../utils/fomateDate.js'),
-    }
 })
 .bind((router, dependencies) => {
     router.get('/', (req, res) => {
