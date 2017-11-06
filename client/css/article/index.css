@@ -1,8 +1,3 @@
-@font-face {
-    font-family: "Bitstream Vera Serif Bold";
-    src: url("https://mdn.mozillademos.org/files/2468/VeraSeBd.ttf");
-}
-
 * {
     margin-top: 0;
 }
@@ -76,6 +71,11 @@ header.middle {
     font-family: 'Chalkduster', 'Marker Felt';
     transition: opacity .3s;
 }
+
+.nec-logo img {
+    width: 350px;
+}
+
 .nec-logo:hover {
     opacity: .6;
     transition: opacity .3s;
