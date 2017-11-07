@@ -1,16 +1,14 @@
-module.exports = class Router {
-    constructor (config) {
-        this.url = config.url;
-        this.config = config;
-        this.dependencies = config.dependencies;
-        this.router = require('express').Router();
-    }
-    bind (callback) {
-        callback(this.router, this.dependencies);
-        return this;
-    }
-    // 没用
-    judgeManage (req) {
-        return !!req.cookies.isManage
-    }
+const indexRoute = require('./router/index');
+const loginRoute = require('./router/login');
+const articleRoute = require('./router/article');
+const apiRoute = require('./router/api.js');
+const errorRoute = require('./router/article');
+
+module.exports = (router) => {
+    let routes = indexRoute.join(loginRoute)
+                           .join(articleRoute)
+                           .join(apiRoute)
+                           .join(errorRoute);
+    routes.map(Route => new Route())
+          .map(route => router[route.type](route.url, route.execute));
 }

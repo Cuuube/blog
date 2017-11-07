@@ -1,8 +1,12 @@
-module.exports = new (require('../controller.js'))({
-    url: '/'
-})
-.bind((router, dependencies) => {
-    router.get('/', (req, res) => {
-        res.redirect(302,'/article');
-    })
-})
+module.exports = [
+    class {
+        constructor () {
+            this.url = '/';
+            this.type = 'get';
+        }
+        execute (req, res) {
+            res.redirect(302,'/article');
+            // res.send(123);
+        }
+    }
+]

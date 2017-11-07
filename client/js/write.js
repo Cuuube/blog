@@ -7,8 +7,8 @@ class Page extends require('./MainPage') {
         let bird = this.bird;
 
         // D('.login').on('click', () => {
-        //     bird.get('/api/test', {a:1,b:2}).then(res => console.log(res));
-        //     bird.post('/api/test', {a:1,b:2}).then(res => console.log(res));
+        //     bird.get('/api/v1/test', {a:1,b:2}).then(res => console.log(res));
+        //     bird.post('/api/v1/test', {a:1,b:2}).then(res => console.log(res));
         // })
         D('.write-area button[type="button"]').on('click', (e) => {
             this.submit();
@@ -36,7 +36,7 @@ class Page extends require('./MainPage') {
             return false;
         };
         
-        bird.post('/api/article', data).then((res) => {
+        bird.post('/api/v1/article', data).then((res) => {
             if (res.code === 0) {
                 alert(res.msg);
                 return false;

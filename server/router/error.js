@@ -1,12 +1,21 @@
-module.exports = new (require('../controller.js'))({
-    url: '/error'
-})
-.bind((router) => {
-    router.get('/404', (req, res) => {
-        res.send('404 not found');
-    })
+module.exports = [
+    class {
+        constructor () {
+            this.url = '/error/404';
+            this.type = 'get';
+        }
+        execute (req, res) {
+            res.send(JSON.stringify({'msg': '404 not found'}));
+        }
+    },
 
-    router.get('/500', (req, res) => {
-        res.send('500 server error');
-    })
-})
+    class {
+        constructor () {
+            this.url = '/error/500';
+            this.type = 'get';
+        }
+        execute (req, res) {
+            res.send(JSON.stringify({'msg': '500 server error'}));
+        }
+    },
+]
