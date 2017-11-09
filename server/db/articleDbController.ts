@@ -1,5 +1,6 @@
 import Db from './db';
 import config from '../config.js';
+import { mdl } from '../model/db';
 
 class ArticleDbController extends Db {
     private Model: any;

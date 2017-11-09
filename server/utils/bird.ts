@@ -47,7 +47,7 @@ export class Bird {
         for ( let x in object) {
             str = str + x + '=' + object[x] + '&';
         }
-        
+
         return str.substr(0, str.length - 1);
     }
 

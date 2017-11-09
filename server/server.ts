@@ -11,6 +11,7 @@ import * as loginRoute from './router/login';
 import * as articleRoute from './router/article';
 import * as apiRoute from './router/api';
 import * as errorRoute from './router/error';
+import { Route } from './controller';
 
 
 
@@ -39,21 +40,24 @@ export class Server {
     }
 
     setRoute (router: Router): Server {
-        console.log(indexRoute);
-        let routes = indexRoute.concat(loginRoute)
-                               .concat(articleRoute)
-                               .concat(apiRoute)
-                               .concat(errorRoute);
-        routes.map(Route => new Route())
-              .map(route => {
-                  router[route.type](route.url, route.execute)
-              });
+        this.mapObject(indexRoute, (route: Route) => {
+            route.response(router);
+        }).mapObject(loginRoute, (route: Route) => {
+            route.response(router);
+        }).mapObject(articleRoute, (route: Route) => {
+            route.response(router);
+        }).mapObject(apiRoute, (route: Route) => {
+            route.response(router);
+        }).mapObject(errorRoute, (route: Route) => {
+            route.response(router);
+        });
         
         return this;
     }
 
     useMiddleware (middleware: any): Server {
         this.app.use(middleware);
+
         return this;
     }
 
@@ -63,6 +67,7 @@ export class Server {
             express: this.app
         });
         this.app.set('views engine', 'html');
+
         return this;
     }
 
@@ -71,8 +76,7 @@ export class Server {
             const error: obj = new Error(` "${ req.originalUrl }" Not Found`);
             error.status = 404;
             next(error);
-        });
-        this.useMiddleware((err: obj, req: Request, res: Response) => {
+        }).useMiddleware((err: obj, req: Request, res: Response) => {
             const status = err.status || 500;
             console.log(status);
             switch (status) {
@@ -83,6 +87,15 @@ export class Server {
                     res.redirect('/error/500');
             }
         });
+
+        return this;
+    }
+
+    mapObject (RouteObjects: obj, callback: Function): Server {
+        for (let key of Object.keys(RouteObjects)) {
+            callback(new RouteObjects[key]());
+        }
+
         return this;
     }
 
@@ -91,6 +104,7 @@ export class Server {
             if (err) throw new Error('Server error');
             console.log('Server started at : http://localhost:'+port);
         })
+
         return this;
     }
 }

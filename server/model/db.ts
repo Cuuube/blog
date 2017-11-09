@@ -1,4 +1,4 @@
-namespace mdl {
+export namespace mdl {
     export class Article {
         file_name: string;
         title: string;

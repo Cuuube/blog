@@ -1,7 +1,8 @@
-import process = require('process');
+import * as process from 'process';
 import { Request, Response } from 'express';
 
-import { GET, POST, DELETE } from '../controller';
+import { GET, POST, DELETE, Route } from '../controller';
+import { mdl } from '../model/db';
 import config from '../config';
 import ac from '../db/articleDbController';
 import lc from '../db/loginDbController';
@@ -13,7 +14,7 @@ const pw = process.env.PW;
 
 
 @GET('/api/v1/article')
-export class GetAllArticle {
+export class GetAllArticle extends Route {
     execute (req: Request, res: Response) {
         const query = req.query;
         ac.find(query).then((data: mdl.Article[]) => {
@@ -26,7 +27,7 @@ export class GetAllArticle {
 
 
 @POST('/api/v1/article')
-export class AddNewArticle {
+export class AddNewArticle extends Route {
     execute (req: Request, res: Response) {
         // 上传新文章, 需要权限控制
         const data: mdl.Article = req.body;
@@ -66,7 +67,7 @@ export class AddNewArticle {
 
 
 @DELETE('/api/v1/article')
-export class DeleteArticle{
+export class DeleteArticle extends Route {
     execute (req: Request, res: Response) {
         // 上传新文章, 需要权限控制
         const data = req.body;
@@ -83,7 +84,7 @@ export class DeleteArticle{
 }
 
 @POST('/api/v1/login')
-export class Login {
+export class Login extends Route {
     execute (req: Request, res: Response) {
         /**
          * 登陆检测
@@ -116,7 +117,7 @@ export class Login {
 }
 
 @GET('/api/v1/test')
-export class GetTest {
+export class GetTest extends Route {
     execute (req: Request, res: Response) {
         let result = `You are requesting "${req.baseUrl}", the full-url is "${req.originalUrl}".
         Accroding parsed, json of require object is ${JSON.stringify(req.query) } .`
@@ -125,7 +126,7 @@ export class GetTest {
 }
 
 @POST('/api/v1/test')
-export class PostTest {
+export class PostTest extends Route {
     execute (req: Request, res: Response) {
         let result = `You are requesting "${req.baseUrl}", the full-url is "${req.originalUrl}".
         Accroding parsed, json of require object is ${JSON.stringify(req.body) } .`
@@ -134,7 +135,7 @@ export class PostTest {
 }
 
 @GET('/api/v1/jsonptest')
-export class JsonpTest {
+export class JsonpTest extends Route {
     execute (req: Request, res: Response) {
         let cbName: Function = req.query.callback;
         let str = '{a:"b",b:"c"}';

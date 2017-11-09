@@ -1,15 +1,15 @@
 import * as path from 'path';
 import { Request, Response } from 'express';
-import { GET, POST } from '../controller';
+import { GET, POST, Route } from '../controller';
 import { Bird } from '../utils/bird';
 import config from '../config';
 
 const bird = new Bird(config.origin);
-const { cookiesKeepTime, manageKey, origin } = require('../config.js');
+const { cookiesKeepTime, manageKey, origin } = config;
 
 
 @GET('/login')
-export class LoginPageRoute{
+export class LoginPageRoute extends Route {
     execute (req: Request, res: Response) {
         const pagePath = path.join('../templates', 'article', 'login.html');
         if (req.cookies.isManage === manageKey) {
@@ -21,7 +21,7 @@ export class LoginPageRoute{
 }
 
 @POST('/login')
-export class PostLoginRoute{
+export class PostLoginRoute extends Route {
     execute (req: Request, res: Response) {
         const pagePath = path.join('../templates', 'article', 'login.html');
         bird.post('/api/v1/login', req.body).then(resp => {

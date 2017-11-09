@@ -2,7 +2,7 @@ import * as path from 'path';
 import * as provess from 'process';
 import { Request, Response } from 'express';
 
-import { GET, POST } from '../controller';
+import { GET, POST, Route } from '../controller';
 import { fomateDate } from '../utils/fomateDate';
 import { Bird } from '../utils/bird';
 import config from '../config';
@@ -14,7 +14,7 @@ const manageKey = config.manageKey;
 
 // 文章主页
 @GET('/article')
-export class ArticleIndexRoute {
+export class ArticleIndexRoute extends Route {
     execute (req: Request, res: Response) {
         const pagePath = path.join('../templates', 'article', 'index.html');
         const isManage = req.cookies.isManage === manageKey;
@@ -39,7 +39,7 @@ export class ArticleIndexRoute {
 
 // 文章新建页
 @GET('/article/write')
-export class ArticleWriteRoute {
+export class ArticleWriteRoute extends Route {
     execute (req: Request, res: Response) {
         const pagePath = path.join('../templates', 'article', 'write.html');
         if (req.cookies.isManage === manageKey) {
@@ -52,7 +52,7 @@ export class ArticleWriteRoute {
 
 // 文章详细页
 @GET('/article/:article_name')
-export class ArticleDetailsRoute {
+export class ArticleDetailsRoute extends Route {
     execute (req: Request, res: Response) {
         const article_name: string = req.params.article_name;
         const pagePath = path.join('../templates', 'article', 'article.html');
@@ -74,7 +74,7 @@ export class ArticleDetailsRoute {
 
 // 不安全的请求接口，请使用 delete /api/article
 @GET('/article/delete/:id')
-export class DeleteArticleRoute {
+export class DeleteArticleRoute extends Route {
     execute (req: Request, res: Response) {
         const id: string = req.params.id;
         bird.delete('/api/v1/article', {_id: id}).then((resp) => {
