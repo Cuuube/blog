@@ -1,7 +1,7 @@
-module.exports = function (exp) {
-    let time = Date.parse(new Date(exp)) - Date.parse(new Date());
-    let sec = Math.floor(time / 1000);
-    let data = {
+export default function (exp: string) {
+    let time = Date.parse(String(new Date(exp))) - Date.parse(String(new Date()));
+    let sec: number = Math.floor(time / 1000);
+    let data: obj = {
         string: '',
         sec: sec
     };

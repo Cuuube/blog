@@ -1,8 +1,8 @@
-module.exports = function toPromise(fn) {
-    function promiseFunction(...args) {
+export const toPromise = (fn: Function): () => Promise<any> => {
+    function promiseFunction(...args: any[]): Promise<any> {
         if (fn instanceof Function) {
             let promise = new Promise((resolve, reject) => {
-                fn(...args, function(...innerArgs) {
+                fn(...args, function(...innerArgs: any[]) {
                     if (innerArgs[0] instanceof Error) {
                         reject(innerArgs[0]);
                     } else {

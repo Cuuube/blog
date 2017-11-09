@@ -1,7 +1,7 @@
-const formateDate = (date) => {
+export const fomateDate = (date: Date): string => {
     let monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 
-    function formateThisDateForSarari(date) {
+    function formateThisDateForSarari(date: Date): Date {
         return new Date(date);
     }
     
@@ -12,11 +12,10 @@ const formateDate = (date) => {
     let hour = padZero(time.getHours());
     let minute = padZero(time.getMinutes());
     let second = padZero(time.getSeconds());
+
     return `${month} ${day}, ${year} ${hour}:${minute}:${second}`
 };
 
-function padZero(str) {
+function padZero(str: string | number): string {
     return ('00' + str).slice(-2);
 }
-
-module.exports = formateDate;

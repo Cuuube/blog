@@ -1,29 +1,28 @@
-const express = require('express');
-const bodyParser = require('body-parser');
-const cookieParser = require('cookie-parser');
-const path = require('path');
-const nunjucks = require('nunjucks');
+import * as express from 'express';
+import { Application, Express, Request, Response, NextFunction, Router } from 'express';
+import * as bodyParser from 'body-parser';
+import * as cookieParser from 'cookie-parser';
+import * as path from 'path';
+import * as nunjucks from 'nunjucks';
 
-const config = require('./config.js');
-const indexRoute = require('./router/index.js');
-const loginRoute = require('./router/login.js');
-const articleRoute = require('./router/article');
-const apiRoute = require('./router/api.js');
-const errorRoute = require('./router/error.js');
+import config from './config';
+import * as indexRoute from './router/index';
+import * as loginRoute from './router/login';
+import * as articleRoute from './router/article';
+import * as apiRoute from './router/api';
+import * as errorRoute from './router/error';
 
 
 
-module.exports = class Server {
+export class Server {
+    private config = config;
+    private app = express();
+    
     constructor () {
-        this.config = config;
-        this.app = express();
-
         this.init();
     }
 
-    init () {
-        
-        
+    init (): Server {
         return this.setStatic('./static')
             .useNunjucks()
             .useMiddleware(bodyParser.json())
@@ -34,12 +33,13 @@ module.exports = class Server {
             .run(this.config.port);
     }
 
-    setStatic (path) {
+    setStatic (path: string): Server {
         this.app.use(express.static(path));
         return this;
     }
 
-    setRoute (router) {
+    setRoute (router: Router): Server {
+        console.log(indexRoute);
         let routes = indexRoute.concat(loginRoute)
                                .concat(articleRoute)
                                .concat(apiRoute)
@@ -52,12 +52,12 @@ module.exports = class Server {
         return this;
     }
 
-    useMiddleware (middleware) {
+    useMiddleware (middleware: any): Server {
         this.app.use(middleware);
         return this;
     }
 
-    useNunjucks () {
+    useNunjucks (): Server {
         nunjucks.configure('./server/templates', {
             autoescape: false,
             express: this.app
@@ -65,13 +65,14 @@ module.exports = class Server {
         this.app.set('views engine', 'html');
         return this;
     }
-    addError () {
-        this.useMiddleware((req, res, next) => {
-            const error = new Error(` "${ req.originalUrl }" Not Found`);
+
+    addError (): Server {
+        this.useMiddleware((req: Request, res: Response, next: NextFunction) => {
+            const error: obj = new Error(` "${ req.originalUrl }" Not Found`);
             error.status = 404;
             next(error);
         });
-        this.useMiddleware((err, req, res) => {
+        this.useMiddleware((err: obj, req: Request, res: Response) => {
             const status = err.status || 500;
             console.log(status);
             switch (status) {
@@ -85,8 +86,8 @@ module.exports = class Server {
         return this;
     }
 
-    run (port) {
-        this.app.listen(port,(err) => {
+    run (port: number): Server {
+        this.app.listen(port,(err: Error) => {
             if (err) throw new Error('Server error');
             console.log('Server started at : http://localhost:'+port);
         })
