@@ -4,12 +4,13 @@ import { mdl } from '../model/db';
 
 class ArticleDbController extends Db {
     private Model: any;
+
     constructor(dbName: string, url?: string) {
         super(dbName, url);
-        this.Model = this.createModel('article', new mdl.Article);
+        this.Model = this.createModel('article', new mdl.DBArticle());
     }
 
-    add(articleData: mdl.Article) {
+    add (articleData: mdl.Article): Promise<{}> {
         let Model = this.Model;
         let article = new Model({
             file_name: articleData.file_name,
@@ -32,7 +33,7 @@ class ArticleDbController extends Db {
         })
     }
 
-    update(params: obj, data: obj) {
+    update (params: obj, data: obj): Promise<{}> {
         return new Promise((resolve, reject) => {
             this.Model.update(params, {
                 $set: {
@@ -53,7 +54,7 @@ class ArticleDbController extends Db {
         })
     }
 
-    remove(params: object) {
+    remove (params: object): Promise<{}> {
         return new Promise((resolve, reject) => {
             this.Model.remove(params, (err: Error) => {
                 if (err) {
@@ -66,9 +67,9 @@ class ArticleDbController extends Db {
         });
     }
 
-    find(params: obj) {
+    find (params: obj): Promise<mdl.Article[]> {
         return new Promise((resolve, reject) => {
-            this.Model.find(params, (err: Error, data: obj) => {
+            this.Model.find(params, (err: Error, data: mdl.Article[]) => {
                 if (err) {
                     reject(err)
                 } else {
@@ -78,7 +79,8 @@ class ArticleDbController extends Db {
             })
         })
     }
-    now() {
+
+    now (): Date {
         return new Date();
     }
 }

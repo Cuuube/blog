@@ -15,77 +15,71 @@ const pw = process.env.PW;
 
 @GET('/api/v1/article')
 export class GetAllArticle extends Route {
-    execute (req: Request, res: Response) {
+    async execute (req: Request, res: Response) {
         const query = req.query;
-        ac.find(query).then((data: mdl.Article[]) => {
-            res.send(data);
-        }).catch((err: Error) => {
+
+        try {
+            const res_data = await ac.find(query);
+            res.send(res_data);
+        } catch (err) {
             res.redirect('/error/500');
-        })
+        }
     }
 }
 
 
 @POST('/api/v1/article')
 export class AddNewArticle extends Route {
-    execute (req: Request, res: Response) {
+    async execute (req: Request, res: Response) {
         // 上传新文章, 需要权限控制
+        if (req.cookies.isManage !== manageKey) {
+            res.send({code: 0, msg: '您没权限提交文章!'});
+            return false;
+        }
         const data: mdl.Article = req.body;
         if (!data.file_name) {
             res.status(200).send({code: 0, msg: '文章格式错误，提交失败!'});
             return false;
         }
-        if (req.cookies.isManage === manageKey) {
-            ac.find({file_name: data.file_name}).then((res_data: mdl.Article[]) => {
-                if (res_data.length !== 0) {
-                    return new Promise(() => {
-                        let err = new Error();
-                        Object.defineProperty(err, 'code', {
-                            value: 2
-                        });
-                        throw(err);
-                    });
-                } else {
-                    return ac.add(data);
-                }
-            }).then((err: Error) => {
+
+        try {
+            const res_data = await ac.find({file_name: data.file_name});
+            if (res_data.length !== 0) {
+                res.status(200).send({code: 0, msg: '文件名已存在，请更换文件名。'});
+            } else {
+                await ac.add(data);
                 res.send({code: 1, msg: '文章成功提交!'});
-            }).catch((err: obj) => {
-                switch (err.code) {
-                    case 2: 
-                        res.status(200).send({code: 0, msg: '文件名已存在，请更换文件名。'});
-                        break;
-                    default:
-                        res.status(200).send({code: 0, msg: '出了些情况，提交失败!'});
-                }
-            });
-        } else {
-            res.send({code: 0, msg: '您没权限提交文章!'});
+            }
+        } catch (err) {
+            res.status(200).send({code: 0, msg: '出了些情况，提交失败!'});
         }
+
     }
 }
 
 
 @DELETE('/api/v1/article')
 export class DeleteArticle extends Route {
-    execute (req: Request, res: Response) {
+    async execute (req: Request, res: Response) {
         // 上传新文章, 需要权限控制
-        const data = req.body;
-        if (true) {
-            ac.remove(data).then(() => {
-                res.send({code: 1, msg: '文章成功删除!'});
-            }).catch((err: Error) => {
-                res.send({code: 0, msg: '出了些情况，删除失败!'});
-            });
-        } else {
+        if (req.cookies.isManage !== manageKey) {
             res.send({code: 0, msg: '您没权限删除文章!'});
+            return false;
+        }
+
+        const data = req.body;
+        try {
+            await ac.remove(data);
+            res.send({code: 1, msg: '文章成功删除!'});
+        } catch (err) {
+            res.send({code: 0, msg: '出了些情况，删除失败!'});
         }
     }
 }
 
 @POST('/api/v1/login')
 export class Login extends Route {
-    execute (req: Request, res: Response) {
+    async execute (req: Request, res: Response) {
         /**
          * 登陆检测
          * 如果密码相同，发送已登陆的cookie
@@ -118,7 +112,7 @@ export class Login extends Route {
 
 @GET('/api/v1/test')
 export class GetTest extends Route {
-    execute (req: Request, res: Response) {
+    async execute (req: Request, res: Response) {
         let result = `You are requesting "${req.baseUrl}", the full-url is "${req.originalUrl}".
         Accroding parsed, json of require object is ${JSON.stringify(req.query) } .`
         res.send(result);
@@ -127,7 +121,7 @@ export class GetTest extends Route {
 
 @POST('/api/v1/test')
 export class PostTest extends Route {
-    execute (req: Request, res: Response) {
+    async execute (req: Request, res: Response) {
         let result = `You are requesting "${req.baseUrl}", the full-url is "${req.originalUrl}".
         Accroding parsed, json of require object is ${JSON.stringify(req.body) } .`
         res.send(result);
@@ -136,7 +130,7 @@ export class PostTest extends Route {
 
 @GET('/api/v1/jsonptest')
 export class JsonpTest extends Route {
-    execute (req: Request, res: Response) {
+    async execute (req: Request, res: Response) {
         let cbName: Function = req.query.callback;
         let str = '{a:"b",b:"c"}';
         let resStr = `${cbName}(${str})`;

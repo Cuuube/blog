@@ -1,13 +1,14 @@
 export namespace mdl {
-    export class Article {
-        file_name: string;
-        title: string;
-        author: string;
-        keywords: string[];
-        description: string;
-        created_time: Date;
-        updated_time: Date;
-        content: string;
+
+    export class DBArticle {
+        file_name = 'string';
+        title = 'string';
+        author = 'string';
+        keywords = 'array';
+        description = 'string';
+        created_time = 'Date';
+        updated_time = 'Date';
+        content = 'string';
     }
 
     export interface Article {
@@ -21,11 +22,11 @@ export namespace mdl {
         content: string;
     }
 
-    export class User {
-        user_name: string;
-        password: string;
-        secret_string: string;
-        block: string;
+    export class DBUser {
+        user_name = 'string';
+        password = 'string';
+        secret_string = 'string';
+        block = 'string';
     }
 
     export interface User {
@@ -34,4 +35,5 @@ export namespace mdl {
         secret_string: string;
         block: string;
     }
+
 }

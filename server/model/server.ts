@@ -19,6 +19,5 @@ export namespace mdl {
         manageKey: string;
     }
     
-
 }
 

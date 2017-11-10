@@ -4,13 +4,14 @@ import { mdl } from '../model/db';
 
 class LoginDbController extends Db {
     private Model: any;
+
     constructor(dbName: string, url?: string) {    
 
         super(dbName, url);
-        this.Model = this.createModel('user', new mdl.User);
+        this.Model = this.createModel('user', new mdl.DBUser());
     }
 
-    add(userData: mdl.User) {
+    add (userData: mdl.User): Promise<{}> {
         let Model = this.Model;
         let article = new Model;
         return new Promise((resolve, reject) => {
@@ -24,7 +25,7 @@ class LoginDbController extends Db {
         })
     }
 
-    update(params: obj, data: obj) {
+    update (params: obj, data: obj): Promise<{}> {
         return new Promise((resolve, reject) => {
             this.Model.update(params, {
                 $set: {
@@ -44,7 +45,7 @@ class LoginDbController extends Db {
         })
     }
 
-    remove(params: obj, data: obj) {
+    remove (params: obj, data: obj): Promise<{}> {
         return new Promise((resolve, reject) => {
             this.Model.remove(params, (err: Error) => {
                 if (err) {
@@ -57,9 +58,9 @@ class LoginDbController extends Db {
         });
     }
 
-    find(params: obj) {
+    find (params: obj): Promise<mdl.User[]> {
         return new Promise((resolve, reject) => {
-            this.Model.find(params, (err: Error, data: obj) => {
+            this.Model.find(params, (err: Error, data: mdl.User[]) => {
                 if (err) {
                     reject(err)
                 } else {

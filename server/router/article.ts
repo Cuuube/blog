@@ -15,11 +15,13 @@ const manageKey = config.manageKey;
 // 文章主页
 @GET('/article')
 export class ArticleIndexRoute extends Route {
-    execute (req: Request, res: Response) {
+    async execute (req: Request, res: Response) {
         const pagePath = path.join('../templates', 'article', 'index.html');
         const isManage = req.cookies.isManage === manageKey;
         
-        bird.get('/api/v1/article').then((resp) => {
+        try {
+            const resp = await bird.get('/api/v1/article');
+
             if (resp.data.length === 0) {
                 res.redirect('/error/404');
             } else {
@@ -31,9 +33,9 @@ export class ArticleIndexRoute extends Route {
                     isManage: isManage
                 });
             }
-        }).catch(err => {
+        } catch (err) {
             res.redirect('/error/500');
-        })
+        }
     }
 }
 
@@ -41,22 +43,25 @@ export class ArticleIndexRoute extends Route {
 @GET('/article/write')
 export class ArticleWriteRoute extends Route {
     execute (req: Request, res: Response) {
-        const pagePath = path.join('../templates', 'article', 'write.html');
-        if (req.cookies.isManage === manageKey) {
-            res.render(pagePath);
-        } else {
-            res.redirect('/error/404')
+        if (req.cookies.isManage !== manageKey) {
+            res.redirect('/error/404');
+            return ;
         }
+
+        const pagePath = path.join('../templates', 'article', 'write.html');
+        res.render(pagePath);
     }
 }
 
 // 文章详细页
 @GET('/article/:article_name')
 export class ArticleDetailsRoute extends Route {
-    execute (req: Request, res: Response) {
+    async execute (req: Request, res: Response) {
         const article_name: string = req.params.article_name;
         const pagePath = path.join('../templates', 'article', 'article.html');
-        bird.get('/api/v1/article', {file_name: article_name}).then((resp) => {
+        
+        try {
+            const resp = await bird.get('/api/v1/article', {file_name: article_name});
             if (resp.data.length === 0) {
                 res.redirect('/error/404');
             } else {
@@ -65,9 +70,9 @@ export class ArticleDetailsRoute extends Route {
                 resp.data[0].created_time = new Date(resp.data[0].created_time).toLocaleString();
                 res.render(pagePath, resp.data[0]);
             }
-        }).catch(err => {
-            res.redirect('/error/500');
-        })
+        } catch (err) {
+            res.redirect('/error/500');            
+        }
     }
 }
 
@@ -75,12 +80,19 @@ export class ArticleDetailsRoute extends Route {
 // 不安全的请求接口，请使用 delete /api/article
 @GET('/article/delete/:id')
 export class DeleteArticleRoute extends Route {
-    execute (req: Request, res: Response) {
+    async execute (req: Request, res: Response) {
+        if (req.cookies.isManage !== manageKey) {
+            res.redirect('/error/404');
+            return ;
+        }
+
         const id: string = req.params.id;
-        bird.delete('/api/v1/article', {_id: id}).then((resp) => {
+        try {
+            await bird.delete('/api/v1/article', {_id: id});
             res.send('success');
-        }).catch(err => {
+
+        } catch (err) {
             res.redirect('/error/500');
-        })
+        }
     }
 }

@@ -11,28 +11,30 @@ const { cookiesKeepTime, manageKey, origin } = config;
 @GET('/login')
 export class LoginPageRoute extends Route {
     execute (req: Request, res: Response) {
-        const pagePath = path.join('../templates', 'article', 'login.html');
         if (req.cookies.isManage === manageKey) {
             res.redirect('/article');
-        } else {
-            res.render(pagePath);            
+            return;
         }
+
+        const pagePath = path.join('../templates', 'article', 'login.html');
+        res.render(pagePath);
     }
 }
 
 @POST('/login')
 export class PostLoginRoute extends Route {
-    execute (req: Request, res: Response) {
+    async execute (req: Request, res: Response) {
         const pagePath = path.join('../templates', 'article', 'login.html');
-        bird.post('/api/v1/login', req.body).then(resp => {
-            // 传递cookie
+
+        try {
+            const resp = await bird.post('/api/v1/login', req.body);
             if (resp.data.code === 1) {
-                res
-                .cookie('isManage', manageKey, {maxAge: cookiesKeepTime})
-                .send({code: 1, msg: '登录成功'});
+                res.cookie('isManage', manageKey, {
+                    maxAge: cookiesKeepTime
+                }).send({code: 1, msg: '登录成功'});
             } else {
                 res.send({code: 0, msg: '登录失败'});
             }
-        })
+        } catch (err) {}
     }
 }
