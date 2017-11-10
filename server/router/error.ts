@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { GET, POST, DELETE, Route } from '../controller';
+import { GET, Route } from '../controller';
 
 
 @GET('/error/404')

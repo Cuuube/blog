@@ -1,3 +1,5 @@
+/// <reference path="../model/db.ts" />
+
 import * as process from 'process';
 import { Request, Response } from 'express';
 
@@ -5,7 +7,6 @@ import { GET, POST, DELETE, Route } from '../controller';
 import { mdl } from '../model/db';
 import config from '../config';
 import ac from '../db/articleDbController';
-import lc from '../db/loginDbController';
 import lock from '../utils/simpleLock';
 
 const manageKey = config.manageKey;

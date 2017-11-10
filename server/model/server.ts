@@ -1,6 +1,6 @@
 
 
-export namespace mdl {
+namespace mdl {
 
     export interface resData {
         code?: string;

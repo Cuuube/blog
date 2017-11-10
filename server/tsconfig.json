@@ -1,0 +1,21 @@
+{
+  // 继承某个tsconfig.json的所有设置，两个json内容会合并
+  "extends": "../tsconfig",
+  "compilerOptions": {
+    // 指定ECMAScript目标版本
+    "target": "es6",
+    // 模块方式
+    "module": "CommonJS",
+    // 仅用来控制输出的目录结构
+    "outDir": "../build/"
+    // 将输出文件合并为一个文件
+    // "outFile": "../build/run.js"
+  },
+  "include": [
+    "../server/**/*",
+    "../types/**/*"
+  ],
+  "exclude": [
+    "node_modules"
+  ]
+}

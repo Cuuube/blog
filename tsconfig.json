@@ -1,23 +1,36 @@
 {
-  "compilerOptions": {                     
-    "target": "es2015",
-    "module": "commonjs",
-    "strict": true,                 
-    "inlineSourceMap": true,
-    "inlineSources": true,              
+  "compilerOptions": {
+    "strict": true,
+    // 使用inline的sourcemap
+    // "inlineSourceMap": true,
+    // "inlineSources": true,
+    // 生成sourcemap
+    "sourceMap": true,
+    // 使用装饰器
     "experimentalDecorators": true,
+    // 添加装饰器元数据(？)
+    "emitDecoratorMetadata": true,
+    // 允许编译js
+    "allowJs": true,
+    // 对js也进行类型检查
+    // "checkJs": true,
+    // 有从未使用的局部变量时报错
+    "noUnusedLocals": true,
+    // 生成相应的.d.ts文件
+    // "declaration": true,
+    // 将每个文件作为单独的模块
+    "isolatedModules": false,
+    // 要包含的类型声明文件路径列表
     "typeRoots": ["./types"],
+    // 报错时不生成输出文件
+    "noEmitOnError": false,
+    // 给错误和消息设置样式，使用颜色和上下文
+    "pretty": true,
+    // 删除所有注释
+    "removeComments": true,
+    // 编译过程中需要引入的库文件的列表
     "lib": [
       "es6"
-    ],
-    "outDir": "./build/"
-    // "outFile": "./build/server.js"
-  },
-  "include": [
-    "./server/**/*",
-    "./types/**/*"
-  ],
-  "exclude": [
-    "node_modules"
-  ]
+    ]
+  }
 }

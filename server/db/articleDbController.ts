@@ -1,3 +1,5 @@
+/// <reference path="../model/db.ts" />
+
 import Db from './db';
 import config from '../config.js';
 import { mdl } from '../model/db';

@@ -1,5 +1,6 @@
 import axios from 'axios';
-import { AxiosInstance, AxiosPromise, AxiosResponse } from 'axios';
+import { AxiosInstance, AxiosPromise } from 'axios';
+
 
 export class Bird {
     private origin: string;

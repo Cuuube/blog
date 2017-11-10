@@ -5,7 +5,7 @@ import { Bird } from '../utils/bird';
 import config from '../config';
 
 const bird = new Bird(config.origin);
-const { cookiesKeepTime, manageKey, origin } = config;
+const { cookiesKeepTime, manageKey } = config;
 
 
 @GET('/login')
@@ -24,8 +24,6 @@ export class LoginPageRoute extends Route {
 @POST('/login')
 export class PostLoginRoute extends Route {
     async execute (req: Request, res: Response) {
-        const pagePath = path.join('../templates', 'article', 'login.html');
-
         try {
             const resp = await bird.post('/api/v1/login', req.body);
             if (resp.data.code === 1) {

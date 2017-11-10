@@ -1,4 +1,5 @@
 import * as markdown from 'marked';
+
 markdown.setOptions({
     renderer: new markdown.Renderer(),
     gfm: true,
@@ -9,4 +10,5 @@ markdown.setOptions({
     smartLists: true,
     smartypants: false
 })
+
 export default markdown;

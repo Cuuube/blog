@@ -1,8 +1,7 @@
 import * as path from 'path';
-import * as provess from 'process';
 import { Request, Response } from 'express';
 
-import { GET, POST, Route } from '../controller';
+import { GET, Route } from '../controller';
 import { fomateDate } from '../utils/fomateDate';
 import { Bird } from '../utils/bird';
 import config from '../config';

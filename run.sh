@@ -1,5 +1,8 @@
 #!/bin/bash
 
 source config.sh
-tsc
+tsc -p server/
+gulp css
+gulp browserify
+
 node build/run.js

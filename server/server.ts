@@ -1,8 +1,7 @@
 import * as express from 'express';
-import { Application, Express, Request, Response, NextFunction, Router } from 'express';
+import { Request, Response, NextFunction, Router } from 'express';
 import * as bodyParser from 'body-parser';
 import * as cookieParser from 'cookie-parser';
-import * as path from 'path';
 import * as nunjucks from 'nunjucks';
 
 import config from './config';
@@ -100,9 +99,9 @@ export class Server {
     }
 
     run (port: number): Server {
-        this.app.listen(port,(err: Error) => {
+        this.app.listen(port, (err: Error) => {
             if (err) throw new Error('Server error');
-            console.log('Server started at : http://localhost:'+port);
+            console.log('Server started at: 🌐 http://localhost:' + port);
         })
 
         return this;
