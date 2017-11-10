@@ -1,0 +1,23 @@
+{
+  "compilerOptions": {                     
+    "target": "es2015",
+    "module": "commonjs",
+    "strict": true,                 
+    "inlineSourceMap": true,
+    "inlineSources": true,              
+    "experimentalDecorators": true,
+    "typeRoots": ["./types"],
+    "lib": [
+      "es6"
+    ],
+    "outDir": "./build/"
+    // "outFile": "./build/server.js"
+  },
+  "include": [
+    "./server/**/*",
+    "./types/**/*"
+  ],
+  "exclude": [
+    "node_modules"
+  ]
+}

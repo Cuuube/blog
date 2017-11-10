@@ -4,3 +4,4 @@ node_modules
 static/js
 static/css
 config.sh
+build/
