@@ -9,6 +9,7 @@ class Config {
     public dbPath = 'mongodb://localhost/blog';
     public cookiesKeepTime = 12 * 60 * 60 * 1000;
     public manageKey = process.env['MANAGE_KEY'];
+    public env = process.env['ENV'];
 }
 
 export default new Config();

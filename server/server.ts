@@ -23,7 +23,12 @@ export class Server {
     }
 
     init (): Server {
+        if (this.config.env === 'DEV') {
+            this.app.use(express.static('./'));
+        }
+
         return this.setStatic('./static')
+            .setStatic('./public')
             .useNunjucks()
             .useMiddleware(bodyParser.json())
             .useMiddleware(bodyParser.urlencoded({ extended: false }))
@@ -35,6 +40,7 @@ export class Server {
 
     setStatic (path: string): Server {
         this.app.use(express.static(path));
+
         return this;
     }
 

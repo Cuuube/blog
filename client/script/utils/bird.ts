@@ -1,17 +1,19 @@
-module.exports = class Bird {
+class Bird {
     constructor() {
         // this.xmlhttp = this.createXHR();
     }
+    
     createXHR() {
         let xmlhttp;
-        if (window.XMLHttpRequest) {
+        if (XMLHttpRequest) {
             xmlhttp = new XMLHttpRequest();
         } else {
             xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
         }
         return xmlhttp;
     }
-    get(url, data) {
+
+    get (url: string, data: object): Promise<any> {
         const self = this;
         return new Promise((resolve, reject) => {
             const xmlhttp = this.createXHR();
@@ -19,7 +21,7 @@ module.exports = class Bird {
             try {
                 xmlhttp.onreadystatechange = function () {
                     if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
-                        let result;
+                        let result: any;
                         try {
                             result = JSON.parse(xmlhttp.responseText)
                         } catch (e) {
@@ -35,8 +37,8 @@ module.exports = class Bird {
             }
         })
     }
-    post(url, data) {
-        const self = this;
+
+    post (url: string, data: object): Promise<any> {
         return new Promise((resolve, reject) => {
             const xmlhttp = this.createXHR();
             const _url = url;
@@ -60,7 +62,8 @@ module.exports = class Bird {
             }
         })
     }
-    postFormdata(url, data) { //有问题
+
+    postFormdata (url: string, data: object): Promise<any> { //有问题
         const self = this;
         return new Promise((resolve, reject) => {
             let xmlhttp = this.createXHR();
@@ -85,47 +88,51 @@ module.exports = class Bird {
             }
         })
     }
-    parseData(obj, isGet) {
+
+    parseData(obj: obj, isGet?: boolean) {
         // 有bug。对数组处理错误。数组b=[1,2]应被解析为：?b[0]=1&b[1]=2
         let str = isGet ? '?' : '';
-        for (let x in obj) {
-            str = str + x + '=' + obj[x] + '&';
+        for (let key of Object.keys(obj)) {
+            str = str + key + '=' + obj[key] + '&';
         }
         return str.substr(0, str.length - 1);
     }
-    __parseData(obj, isGet) {
-        // 写完整版的parse
-        let str = isGet ? '?' : '';
-        for (let x in obj) {
-            if (obj[x] instanceof Array || obj[x] instanceof Object) {
-                str = str + _parseObj(obj[x]) + '&';
-            }
-            str = str + x + '=' + obj[x] + '&';
-        }
-        console.log(str);
-        return str.substr(0, str.length - 1);
-        function _parseObj(data,key) {
-            let str;
-            if (data instanceof Array || data instanceof Object) {
-                for (let x in data) {
-                    str = str+`${key}[${x}]=${_parseObj(data[x])}`
-                }
-            } else {
-                str = str + key + '=' + data + '&';
-            }
-        }
-    }
-    createFormData(obj) {
+
+    // __parseData(obj: obj, isGet?: boolean) {
+    //     // 写完整版的parse
+    //     let str = isGet ? '?' : '';
+    //     for (let x in obj) {
+    //         if (obj[x] instanceof Array || obj[x] instanceof Object) {
+    //             str = str + _parseObj(obj[x]) + '&';
+    //         }
+    //         str = str + x + '=' + obj[x] + '&';
+    //     }
+    //     console.log(str);
+    //     return str.substr(0, str.length - 1);
+
+    //     function _parseObj(data: obj, key: string | number) {
+    //         let str;
+    //         if (data instanceof Array || data instanceof Object) {
+    //             for (let x in data) {
+    //                 str = str+`${key}[${x}]=${_parseObj(data[x])}`
+    //             }
+    //         } else {
+    //             str = str + key + '=' + data + '&';
+    //         }
+    //     }
+    // }
+
+    createFormData(obj: obj) {
         let formdata = new FormData();
         // 往formdata中添加文件,另一种formdata方式：
         // let data = new FormData($('form')[0]);
         // data.append('upload',$('input[type=file]')[0].files[0]);
         // 添加其他信息
-        for (let x in obj) {
-            if (x instanceof Array) {
-                x.forEach(val => formdata.append(x, val));
+        for (let key of Object.keys(obj)) {
+            if (obj[key] instanceof Array) {
+                obj[key].forEach((val: any) => formdata.append(key, val));
             } else {
-                formdata.append(x, obj[x]);
+                formdata.append(key, obj[key]);
             }
         }
         return formdata;
@@ -134,7 +141,7 @@ module.exports = class Bird {
         // data.append('imgTitle', 'data3');
     }
 
-    jsonp(url, config, callback) {
+    jsonp(url: string, config: obj, callback: Function) {
         let cbName = 'callback';        
         let script = document.createElement('script');
         if (!config) {
@@ -148,18 +155,18 @@ module.exports = class Bird {
         }
         script.src = url;
         document.body.appendChild(script); 
-        script.onload = function (e) {
-            window[cbName] = null;
-            document.body.removeChild(e.target);
+        script.onload = function (e: Event) {
+            (<window>window)[cbName] = null;
+            document.body.removeChild(<Node>e.target);
         }
-        script.onerror = function (e) {
-            window[cbName] = null;
-            document.body.removeChild(e.target);
+        script.onerror = function (e: Event) {
+            (<window>window)[cbName] = null;
+            document.body.removeChild(<Node>e.target);
         }
         
         return new Promise((resolve, reject) => {
             try {
-                window[cbName] = function (res) {
+                (<window>window)[cbName] = function (res: any) {
                     resolve(res);
                 }
             } catch (e) {

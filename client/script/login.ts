@@ -1,25 +1,30 @@
-class Page extends require('./MainPage') {
+/// <reference path="./MainPage.ts" />
+
+{
+    
+class Page extends MainPage {
+    private array: string[];
+
     constructor () {
         super();
-        this.array = [];
     }
 
     ready () {
         let D = this.D;
         let self = this;
 
-        function hoverHandle(e) {
+        function hoverHandle(e: Event) {
             self.pushArray(D(e.target).attr('number'));
         }
 
-        D(document).on('dragend', (e) => {
+        D(document).on('dragend', (e: Event) => {
             e.preventDefault();
         })
-        D(document).on('drop', (e) => {
+        D(document).on('drop', (e: Event) => {
             e.preventDefault();
         })
 
-        D('.login-point').on('mousedown', (e) => {
+        D('.login-point').on('mousedown', (e: Event) => {
             this.pushArray(D(e.target).attr('number'));
             D('.login-point').on('mouseenter', hoverHandle);
         })
@@ -35,11 +40,11 @@ class Page extends require('./MainPage') {
         })
     }
 
-    pushArray (data) {
+    pushArray (data: any) {
         this.array.push(data);
     }
 
-    getArray () {
+    getArray (): string[] {
         return this.array;
     }
 
@@ -47,7 +52,7 @@ class Page extends require('./MainPage') {
         this.array = [];
     }
 
-    sendData (data) {
+    sendData (data: string[]) {
         // doSth
         this.bird.post('/login', data).then(res => {
             if (res && res.code === 1) {
@@ -60,4 +65,6 @@ class Page extends require('./MainPage') {
     }
 }
 
-let page = new Page();
+new Page();
+
+}

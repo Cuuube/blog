@@ -359,4 +359,4 @@ class Doom {
 
 Doom.label('D');
 
-module.exports = sth => Doom.create(sth);
+// module.exports = sth => Doom.create(sth);

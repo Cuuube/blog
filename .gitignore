@@ -1,7 +1,7 @@
 .vscode
 node_modules
 .DS_Store
-static/js
-static/css
+static/
 config.sh
 build/
+package-lock.json

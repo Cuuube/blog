@@ -40,4 +40,4 @@ class UserAgent {
     }
 }
 
-module.exports = new UserAgent(window);
+// module.exports = new UserAgent(window);
