@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+html(lang="en")
+    head
+        meta(charset="UTF-8")
+        meta(name="viewport", content="width=device-width, initial-scale=1.0")
+        meta(http-equiv="X-UA-Compatible", content="ie=edge")
+        title Index | DI Lab
+        link(rel="stylesheet", type="text/css" href="/css/article/index.css")
+
+    body
+        if isManage === true
+            button(type="button", class="floor-icon add-article", onclick="window.open('/article/write')")
+                img(src="/icon/plus.svg")
+        else
+            button(type="button", class="floor-icon login")
+                img(src="/icon/user.svg")
+
+        header.middle
+
+        section.nec.middle
+            div.nec-logo
+                img(src="/images/DILAB.svg", alt="DI")
+
+        section.body.middle
+            each article in articleList
+                a.article-link(href="/article/" + article.file_name)
+                    div.article-header
+                        h1.article-title= article.title
+                        p.article-time= article.created_time
+        section.leg.middle
+
+        footer.middle
+
+    include common/script-utils.pug
+    script(src="/script/index.js")
+
+//- {% for article in articleList %}
+//-     <div data-id="{{ article._id }}">
+//-         <h1><a href="/article/{{ article.file_name }}">{{ article.title }}</a></h1>
+//-         <small>{{ article.author }}</small><small>{{ article.created_time }}</small><small>{{ article.updated_time }}</small>
+//-         <p>{{ article.description }}</p>
+//-         {% for keyword in article.keywords %}
+//-             <span>{{ keyword }}</span>
+//-         {% endfor %}
+//-     </div>
+//- {% endfor %}
+
+

@@ -3,7 +3,7 @@
 {
     
 class Page extends MainPage {
-    private array: string[];
+    private array: string[] = [];
 
     constructor () {
         super();

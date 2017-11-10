@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+html(lang="en")
+    head
+        meta(charset="UTF-8")
+        meta(name="viewport", content="width=device-width, initial-scale=1.0")
+        meta(http-equiv="X-UA-Compatible", content="ie=edge")
+        title #{title} | DI Lab
+        link(rel="stylesheet", type="text/css" href="/css/article/article.css")
+
+    body(data-id=_id, data-fileName=file_name)
+        button.floor-icon.to-top(type="button")
+            img(src="/icon/up-arrow.svg")
+
+        header.middle
+        section.nec.middle
+            a(href="/")
+                div.nec-logo
+                    img(src="/images/DILAB.svg", alt="DI")
+
+        section.body.middle
+            div.article-header.add-padding
+                h1.article-title= title
+                p.article-time= created_time
+            hr.dividing
+            div.article-area.add-padding !{content}
+            hr.dividing
+
+        section.leg.middle
+
+        footer.middle
+
+    include common/script-utils.pug
+    script(src="/script/article.js")
+
+
+
+    //- <!-- <h1>{{ title }}</h1>
+    //- <small>{{ author }}</small><small>{{ created_time }}</small><small>{{ updated_time }}</small>
+    //- <p>{{ description }}</p>
+    //- {% for keyword in keywords %}
+    //- <span>{{ keyword }}</span>
+    //- {% endfor %}

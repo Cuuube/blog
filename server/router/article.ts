@@ -1,4 +1,3 @@
-import * as path from 'path';
 import { Request, Response } from 'express';
 
 import { GET, Route } from '../controller';
@@ -15,7 +14,7 @@ const manageKey = config.manageKey;
 @GET('/article')
 export class ArticleIndexRoute extends Route {
     async execute (req: Request, res: Response) {
-        const pagePath = path.join('../templates', 'article', 'index.html');
+        const pagePath = 'index.pug';
         const isManage = req.cookies.isManage === manageKey;
         
         try {
@@ -29,7 +28,8 @@ export class ArticleIndexRoute extends Route {
                 })
                 res.render(pagePath, {
                     articleList: resp.data,
-                    isManage: isManage
+                    isManage: isManage,
+                    env: config.env
                 });
             }
         } catch (err) {
@@ -47,8 +47,10 @@ export class ArticleWriteRoute extends Route {
             return ;
         }
 
-        const pagePath = path.join('../templates', 'article', 'write.html');
-        res.render(pagePath);
+        const pagePath = 'write.pug';
+        res.render(pagePath, {
+            env: config.env
+        });
     }
 }
 
@@ -57,7 +59,7 @@ export class ArticleWriteRoute extends Route {
 export class ArticleDetailsRoute extends Route {
     async execute (req: Request, res: Response) {
         const article_name: string = req.params.article_name;
-        const pagePath = path.join('../templates', 'article', 'article.html');
+        const pagePath = 'article.pug';
         
         try {
             const resp = await bird.get('/api/v1/article', {file_name: article_name});
@@ -67,6 +69,7 @@ export class ArticleDetailsRoute extends Route {
                 // 查询结果返回一个数组，我们只需要第一个 
                 resp.data[0].content = md(resp.data[0].content);
                 resp.data[0].created_time = new Date(resp.data[0].created_time).toLocaleString();
+                resp.data[0].env = config.env;
                 res.render(pagePath, resp.data[0]);
             }
         } catch (err) {
