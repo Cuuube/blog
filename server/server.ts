@@ -2,7 +2,6 @@ import * as express from 'express';
 import { Request, Response, NextFunction, Router } from 'express';
 import * as bodyParser from 'body-parser';
 import * as cookieParser from 'cookie-parser';
-import * as nunjucks from 'nunjucks';
 
 import config from './config';
 import * as indexRoute from './router/index';
@@ -23,8 +22,13 @@ export class Server {
     }
 
     init (): Server {
+        if (this.config.env === 'DEV') {
+            this.app.use(express.static('./'));
+        }
+
         return this.setStatic('./static')
-            .useNunjucks()
+            .setStatic('./public')
+            .useTemplate()
             .useMiddleware(bodyParser.json())
             .useMiddleware(bodyParser.urlencoded({ extended: false }))
             .useMiddleware(cookieParser())
@@ -35,6 +39,7 @@ export class Server {
 
     setStatic (path: string): Server {
         this.app.use(express.static(path));
+
         return this;
     }
 
@@ -60,12 +65,8 @@ export class Server {
         return this;
     }
 
-    useNunjucks (): Server {
-        nunjucks.configure('./server/templates', {
-            autoescape: false,
-            express: this.app
-        });
-        this.app.set('views engine', 'html');
+    useTemplate (): Server {
+        this.app.set('view engine', 'pug');
 
         return this;
     }

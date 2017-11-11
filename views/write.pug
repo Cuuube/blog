@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+html(lang="en")
+    head
+        meta(charset="UTF-8")
+        meta(name="viewport", content="width=device-width, initial-scale=1.0")
+        meta(http-equiv="X-UA-Compatible", content="ie=edge")
+        title 写文章 | DI Lab
+        link(rel="stylesheet", type="text/css" href="/css/article/article.css")
+
+    body
+        header.middle
+        section.nec.middle
+            a(href="/")
+                div.nec-logo
+                    img(src="/images/DILAB.svg", alt="DI")
+
+        section.body.middle
+            div.article-header.add-padding
+                h1.article-title 写下一些东西
+                p.article-time 随心所欲
+            hr.dividing
+            div.write-area.add-padding
+                label.form-control 文件名/路由名 (不填写会自动生成字符串)
+                    input(name="file_name")
+                label.form-control 文章标题 <span style="color: red">*</span>
+                    input(name="title")
+                label.form-control 文章作者 (默认：铜方块)
+                    input(name="author")
+                label.form-control 关键字/标签
+                    input(name="keywords")
+                label.form-control 简介 (默认：无)
+                    input(name="description")
+                label.form-control 内容 <span style="color: red">*</span>
+                    textarea(name="content")
+                label.form-control 生成时间 (默认： 当前时间)
+                    input(name="created_time")
+                label.form-control 更改时间 (默认： 当前时间)
+                    input(name="updated_time")
+                button(type="button") 提交
+                hr.dividing
+
+        section.leg.middle
+
+        footer.middle
+
+    include common/script-utils.pug
+    script(src="/script/write.js")

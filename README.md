@@ -24,8 +24,14 @@ $ ./run.sh
 * `server`
 * nodejs服务器源码
 
+* `views`
+* pug模板
+
+* `public`
+* 前端静态资源文件夹，images,icon和lib等
+
 * `static`
-* 前端静态资源文件夹，编译出来的css和js等
+* 前端源码编译出来的css和js等
 
 * `build`
 * typescript编译出来的server代码
@@ -47,6 +53,8 @@ $ ./run.sh
 ```bash
 #!/bin/bash
 
-export PW='%3Aikoqo'
+# login passwd
+export PW='2ksAk%9'
 export MANAGE_KEY='500'
+export NODE_ENV='DEV'
 ```

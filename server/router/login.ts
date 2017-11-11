@@ -1,4 +1,3 @@
-import * as path from 'path';
 import { Request, Response } from 'express';
 import { GET, POST, Route } from '../controller';
 import { Bird } from '../utils/bird';
@@ -16,8 +15,10 @@ export class LoginPageRoute extends Route {
             return;
         }
 
-        const pagePath = path.join('../templates', 'article', 'login.html');
-        res.render(pagePath);
+        const pagePath = 'login.pug';
+        res.render(pagePath, {
+            env: config.env
+        });
     }
 }
 

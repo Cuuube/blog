@@ -1,4 +1,4 @@
-class Storage {
+class StorageController {
     constructor (window) {
         this.localStorage = window.localStorage ? window.localStorage : alert('此浏览器不支持Storage!');
         this.sessionStorage = window.sessionStorage ? window.sessionStorage : alert('此浏览器不支持Storage!');
@@ -22,7 +22,7 @@ class Storage {
         } else {
             return this.sessionStorage;
         }
-        return this;
+        // return this;
     }
     remove (storageName, value) {
         if (value !== undefined) {
@@ -68,4 +68,4 @@ class Storage {
     }
 }
 
-module.exports = new Storage(window);
+// module.exports = new Storage(window);
