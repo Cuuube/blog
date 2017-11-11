@@ -25,7 +25,7 @@ $ ./run.sh
 * nodejs服务器源码
 
 * `views`
-* pug templates
+* pug模板
 
 * `public`
 * 前端静态资源文件夹，images,icon和lib等

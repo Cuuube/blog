@@ -22,7 +22,7 @@ class StorageController {
         } else {
             return this.sessionStorage;
         }
-        return this;
+        // return this;
     }
     remove (storageName, value) {
         if (value !== undefined) {
